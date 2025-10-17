@@ -1,0 +1,6 @@
+{
+  "root": true,
+  "title": "AetherCore",
+  "description": "The AetherCore framework for building motion control applications in Rust.",
+  "icon": "BatteryCharging"
+}
