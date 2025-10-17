@@ -9,9 +9,9 @@ export default function LandingPage() {
           titleLine2="Motion Control"
           description="Make your robots move with ease. Aether is a motion control platform that allows you to control like you never have before."
           mainButtonText="Get started"
-          mainButtonHref="/docs/core"
-          altButtonText="Browse the documentation"
-          altButtonHref="/docs/core"
+          mainButtonHref="/docs/lib"
+          altButtonText="I came here for 3D printing"
+          altButtonHref="/docs/printer"
           background={{ from: "#fc6ff7", to: "#fc6ff7" }}
           className="flex-1"
         />

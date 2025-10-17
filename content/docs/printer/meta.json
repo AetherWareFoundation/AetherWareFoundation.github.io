@@ -1,0 +1,6 @@
+{
+  "root": true,
+  "title": "Aether Printer",
+  "description": "Aether firmware for 3D printing.",
+  "icon": "Printer"
+}

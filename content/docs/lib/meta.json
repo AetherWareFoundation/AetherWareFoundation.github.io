@@ -1,0 +1,6 @@
+{
+  "root": true,
+  "title": "Aether",
+  "description": "The Aether framework for building motion control applications in Rust.",
+  "icon": "BatteryCharging"
+}

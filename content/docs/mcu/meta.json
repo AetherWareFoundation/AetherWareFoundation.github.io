@@ -1,6 +1,6 @@
 {
   "root": true,
   "title": "AetherMCU",
-  "description": "How to use and configure the Aether firmware",
+  "description": "Reference implementation of the Aether components.",
   "icon": "Cpu"
 }

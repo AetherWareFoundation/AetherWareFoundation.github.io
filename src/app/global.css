@@ -14,30 +14,28 @@
 /* Accent colors for the docs */
 
 :root {
-  --doc-color-core: hsl(141, 53%, 53%);
-  --doc-color-ui: hsl(217, 91%, 60%);
+  --doc-color-lib: hsl(141, 53%, 53%);
   --doc-color-mcu: hsl(250, 80%, 54%);
-  --doc-color-dev: hsl(41, 100%, 40%);
-}
-
-.dark {
-  --doc-color-core: hsl(141, 53%, 53%);
+  --doc-color-printer: hsl(41, 100%, 40%);
   --doc-color-ui: hsl(217, 91%, 60%);
-  --doc-color-mcu: hsl(250 100% 80%);
-  --doc-color-dev: #fff383;
 }
-
+.dark {
+  --doc-color-lib: hsl(141, 53%, 53%);
+  --doc-color-mcu: hsl(250 100% 80%);
+  --doc-color-printer: #fff383;
+  --doc-color-ui: hsl(217, 91%, 60%);
+}
+.doc-accent-lib {
+  --color-fd-primary: var(--doc-color-lib);
+}
 .doc-accent-mcu {
   --color-fd-primary: var(--doc-color-mcu);
 }
+.doc-accent-printer {
+  --color-fd-primary: var(--doc-color-printer);
+}
 .doc-accent-ui {
   --color-fd-primary: var(--doc-color-ui);
-}
-.doc-accent-core {
-  --color-fd-primary: var(--doc-color-core);
-}
-.doc-accent-dev {
-  --color-fd-primary: var(--doc-color-dev);
 }
 
 /* Shadcn/UI variables */
