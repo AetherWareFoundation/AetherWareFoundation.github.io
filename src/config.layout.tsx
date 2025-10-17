@@ -13,7 +13,7 @@ export const linkItems: Array<LinkItemType> = [
   {
     icon: <FileTextIcon />,
     text: "Documentation",
-    url: "/docs/core",
+    url: "/docs/lib",
   },
 
   // small icons to the right
