@@ -9,7 +9,7 @@ import { cn } from "fumadocs-ui/utils/cn";
 
 import { StaticSearchDialog } from "@/components/fuma/StaticSearchDialog";
 
-export function useDocsAccent(): string | undefined {
+function useDocsAccent(): string | undefined {
   const { slug } = useParams<{ slug?: string[] }>();
   return Array.isArray(slug) && slug.length > 0 ? slug[0] : undefined;
 }
