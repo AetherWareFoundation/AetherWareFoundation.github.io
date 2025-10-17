@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noUnknownAtRules: tailwindcss */
+
 @import "tailwindcss";
 
 @import "tw-animate-css";
@@ -25,10 +27,18 @@
   --doc-color-dev: #fff383;
 }
 
-.doc-accent-mcu { --color-fd-primary: var(--doc-color-mcu); }
-.doc-accent-ui { --color-fd-primary: var(--doc-color-ui); }
-.doc-accent-core { --color-fd-primary: var(--doc-color-core); }
-.doc-accent-dev { --color-fd-primary: var(--doc-color-dev); }
+.doc-accent-mcu {
+  --color-fd-primary: var(--doc-color-mcu);
+}
+.doc-accent-ui {
+  --color-fd-primary: var(--doc-color-ui);
+}
+.doc-accent-core {
+  --color-fd-primary: var(--doc-color-core);
+}
+.doc-accent-dev {
+  --color-fd-primary: var(--doc-color-dev);
+}
 
 /* Shadcn/UI variables */
 

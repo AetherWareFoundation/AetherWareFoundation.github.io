@@ -1,5 +1,6 @@
 import type { FunctionComponent } from "react";
 
+// biome-ignore lint/complexity/noBannedTypes: will receive props in the future
 export type LogoProps = {};
 
 export const Logo: FunctionComponent<LogoProps> = () => {

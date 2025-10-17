@@ -23,8 +23,8 @@ export const GitHubStars: FunctionComponent<GitHubStarsProps> = ({
   ...buttonProps
 }) => {
   const cache = useLocalStorageCache("github-repository");
-  const [isLoading, setIsLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
+  const [_isLoading, setIsLoading] = useState(true);
+  const [_failed, setFailed] = useState(false);
   const [stars, setStars] = useState(0);
 
   const cacheKey = useMemo(() => repoTuple.toLowerCase(), [repoTuple]);
