@@ -1,0 +1,49 @@
+---
+title: EtherCAT in Aether
+description: What EtherCAT is, how it works, and why Aether adopts an EtherCAT‑style model for deterministic motion control.
+icon: Network
+---
+
+## What Is EtherCAT?
+
+EtherCAT is a real‑time fieldbus that runs over standard Ethernet PHYs. A single master sends a frame that traverses every device (slave) on the line; each device reads and writes its data “on the fly” at wire speed. The frame returns to the master with all process data applied for that cycle.
+
+- Master/slave topology with line, tree/branch, or ring wiring.
+- Deterministic cycle times and very low jitter at 100 Mbit/s.
+- Distributed Clocks synchronize all nodes to a common time base.
+- Two paths: fast cyclic process data (PDOs) and mailbox/SDO for configuration.
+- No IP/TCP/UDP in the hard real‑time path; frames are processed directly by slaves.
+
+This pattern is ideal for multi‑axis motion control: the master commits a schedule, all axes update in lock‑step, and sensors/encoders are sampled in the same cycle.
+
+## How Aether Uses It
+
+Aether treats microcontroller and I/O nodes like EtherCAT‑style devices: deterministic cycles, register‑mapped I/O, and descriptor‑driven discovery/configuration.
+
+- Register‑mapped I/O mirrors fieldbus patterns, avoiding ad‑hoc command streams.
+- Device descriptors allow discovery and robust configuration.
+- Real‑time work stays in the “core”; higher‑level logic lives in the controller.
+- Scales cleanly: one cable can service many axes, I/O blocks, and sensors with consistent timing.
+- Unifies devices: supports mixed ecosystems (AetherMCU boards, third‑party EtherCAT drives/IO) on one bus.
+
+- EtherCAT is considered a first‑class path for Aether’s real‑time network, but there is no hard lock‑in. Bridging modules can be used where needed rather than forcing everything through EtherCAT.
+- Early milestones may ship with Aether’s own register‑based transport; full EtherCAT integration (and alternatives like LBP16) can land later without disrupting the architecture.
+
+- Wiring/topology: line and ring are common; branches require appropriate couplers. Standard 100BASE‑TX cabling is typical.
+- Power: “power over EtherCAT” exists in the ecosystem; suitability depends on device current and wiring—evaluate per design.
+
+## Benefits of EtherCAT vs. Non‑Fieldbus Protocols (CAN, UART and USB)
+
+Compared to CAN, UART, and USB, EtherCAT provides deterministic low‑jitter cycles and a global time base (Distributed Clocks). All nodes share one 100 Mbit/s frame that devices edit on‑the‑fly, so there are no per‑device handshakes or host‑side scheduling gaps. CAN/CAN‑FD have small payloads and arbitration jitter under load; UART is bandwidth‑limited and point‑to‑point; USB depends on the host scheduler and can introduce microframe jitter and queuing. For motion control, EtherCAT’s frame‑based, time‑synchronized model keeps axes and sensors in lock‑step.
+
+- Lower jitter than USB/UART‑style links for time‑critical loops.
+- One deterministic schedule rather than many unsynchronized device links.
+- Clear separation of process data (fast) and configuration (mailbox) paths.
+
+## FAQ
+
+- Does Aether require EtherCAT?
+  - No. EtherCAT is first‑class because it provides strong determinism and clean device integration, but Aether can run with an Aether‑native register bus and use bridges where appropriate. The architecture keeps the real‑time path “EtherCAT‑style” regardless, so adopting EtherCAT later is straightforward.
+
+- What devices go on EtherCAT?
+  - Motor drives (steppers/servos), I/O modules (fans, heaters, end‑stops), encoders/sensors, and probe hardware like Beacon in 3D printing applications. Non‑real‑time peripherals remain on the controller side.
