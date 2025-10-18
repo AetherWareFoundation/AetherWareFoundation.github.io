@@ -90,3 +90,78 @@ Aether is a launchpad for motion‑centric projects — from hobby robots to pro
 - Aether provides the motion control substrate for robotics and machines that benefit from deterministic timing, EtherCAT networking, and modular composition.
 - For 3D printing, Aether Printer integrates these pieces into an end‑to‑end firmware stack.
 - Bridging to other ecosystems is possible via modules on the real‑time side without bending the core architecture.
+
+## Frequently Asked Questions
+
+<details>
+  <summary>What is Aether? How do “Aether Printer” and “AetherMCU” fit in?</summary>
+  <p>
+    Aether is the project and the set of libraries for motion control applications. 
+    Aether Printer is the 3D‑printer firmware built on that base. 
+    AetherMCU is the reference MCU implementation.
+  </p>
+</details>
+
+<details>
+  <summary>How is Aether different from Klipper or Marlin?</summary>
+  <p>
+    Aether draws a hard boundary between host and MCU (both process and license). It favors board‑specific MCU builds over one generic firmware and avoids re‑flashing MCUs in lock‑step with host releases. On the wire, AetherMCU speaks a register‑based (fieldbus‑style) protocol rather than ad‑hoc commands.
+    Aether is a ground up redesign using current state of the art hardware and software methods.
+  </p>
+</details>
+
+<details>
+  <summary>What hardware will be supported first?</summary>
+  <p>
+    Initial target is the BTT Octopus with TMC5160s for initial release, then broader board coverage. The goal is to ship something that prints well on common, capable hardware and expand from there.
+  </p>
+</details>
+
+<details>
+  <summary>Will I need to update MCU firmware often?</summary>
+  <p>
+    No. Aether explicitly avoids frequent MCU updates tied to host changes. Occasional updates may happen, but device behavior should remain stable across controller versions.
+  </p>
+</details>
+
+<details>
+  <summary>Does Aether require EtherCAT? What’s the communication model?</summary>
+  <p>
+    An AetherMCU instance will be treated like an EtherCAT‑style device: deterministic cycles, register‑mapped IO, and descriptor‑based discovery/config. EtherCAT is first‑class, and bridging modules can be used where needed—no hard lock‑in.
+  </p>
+</details>
+
+<details>
+  <summary>Can I reuse existing Klipper MCUs or accessories within Aether Printer?</summary>
+  <p>
+    Direct reuse of a Klipper MCU isn’t planned. Some accessories that speak Klipper protocols may be bridged or re‑targeted, but the preference is Aether‑native or EtherCAT‑style devices for clean discovery/config and timing guarantees.
+  </p>
+</details>
+
+<details>
+  <summary>What performance targets are you aiming for?</summary>
+  <p>
+    On a Pi 5, the target control cycle is around 500 μs, with room to go lower using kernel/driver tuning. On MCUs, timer hardware (e.g., repetition counters) enables step rates far beyond typical host‑bit‑banged approaches.
+  </p>
+</details>
+
+<details>
+  <summary>How do device discovery and configuration work? Is hot‑plug planned?</summary>
+  <p>
+    Devices describe their resources (EtherCAT‑style). Discovery aims to be robust, but not everything is auto‑detectable—there is always a safe “not detected” fallback with manual configuration. Hot‑plug is planned where feasible; real‑time safety wins if there’s a trade‑off.
+  </p>
+</details>
+
+<details>
+  <summary>Which advanced features are in scope soon?</summary>
+  <p>
+    Real‑time capabilities: resonance compensation, live encoder feedback and lag detection (including extruder), closed‑loop/servo control, and a modern motion planner (aligned with ideas pioneered in Prunt). For 3D printers an MPC temperature control library will ship via a Rust port of the existing Marlin/Klipper work.
+  </p>
+</details>
+
+<details>
+  <summary>When will it be ready?</summary>
+  <p>
+    When it’s good. Near‑term: reach Klipper/Marlin‑parity on targeted hardware; then land the more ambitious features. Quality and correctness drive the schedule.
+  </p>
+</details>
