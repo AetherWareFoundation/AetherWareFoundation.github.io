@@ -1,6 +1,5 @@
+import { source } from "@/lib/content";
 import { SITE_NAME } from "@/config";
-
-import { source } from "@/lib/docs/source";
 
 export const revalidate = false;
 

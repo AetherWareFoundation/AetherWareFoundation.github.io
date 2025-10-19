@@ -3,9 +3,8 @@ import { ImageResponse } from "next/og";
 
 import { generate as DefaultImage } from "fumadocs-ui/og";
 
+import { getDocsPageImage, source } from "@/lib/content";
 import { SITE_NAME } from "@/config";
-
-import { getPageImage, source } from "@/lib/docs/source";
 
 export const revalidate = false;
 
@@ -33,6 +32,6 @@ export async function GET(
 export function generateStaticParams() {
   return source.getPages().map((page) => ({
     lang: page.locale,
-    slug: getPageImage(page).segments,
+    slug: getDocsPageImage(page).segments,
   }));
 }

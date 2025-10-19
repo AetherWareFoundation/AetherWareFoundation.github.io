@@ -2,11 +2,10 @@ import type { CSSProperties } from "react";
 
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 
+import { source } from "@/lib/content";
 import { Logo } from "@/components/Logo";
 import { SITE_NAME } from "@/config";
 import { linkItems, sharedBaseLayoutOptions } from "@/config.layout";
-
-import { source } from "@/lib/docs/source";
 
 export default function Layout({ children }: LayoutProps<"/docs">) {
   return (

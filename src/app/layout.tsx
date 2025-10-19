@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { cn } from "fumadocs-ui/utils/cn";
 
-import { StaticSearchDialog } from "@/components/fuma/StaticSearchDialog";
+import { StaticSearchDialog } from "@/components/StaticSearchDialog";
 
 function useDocsAccent(): string | undefined {
   const { slug } = useParams<{ slug?: string[] }>();
@@ -21,8 +21,8 @@ export default function Layout({ children }: LayoutProps<"/">) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          `doc-accent-${mode}`,
           "relative flex flex-col min-h-screen",
+          mode && `doc-accent-${mode}`,
         )}
       >
         <RootProvider search={{ SearchDialog: StaticSearchDialog }}>

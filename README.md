@@ -6,9 +6,14 @@ This is the website and user documentation for the Aether project.
 
 Look no further! Just edit the files in the `content/docs` directory and submit a pull request.
 
+The docs are written in GitHub Flavored Markdown (GFM) and processed by Fumadocs.
+You can find more information about writing GFM style Markdown in the [Fumadocs documentation](https://fumadocs.dev/docs/ui/markdown).
+
+**Important:** Please use [custom anchors](https://fumadocs.dev/docs/ui/markdown#custom-anchor) for headings to guarantee links stay stable in the future.
+
 Additionally, if you want your documentation to be extra fancy, you can use [Fumadocs components](https://fumadocs.dev/docs/ui/components).
 
-Additional supported components are:
+We also added custom components for advanced use cases:
 
 ### [Mermaid](https://mermaid.js.org/)
 

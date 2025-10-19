@@ -10,7 +10,7 @@ export const source = loader({
   plugins: [lucideIconsPlugin()],
 });
 
-export function getPageImage(page: InferPageType<typeof source>) {
+export function getDocsPageImage(page: InferPageType<typeof source>) {
   const segments = [...page.slugs, "image.png"];
   return {
     segments,
@@ -18,7 +18,7 @@ export function getPageImage(page: InferPageType<typeof source>) {
   };
 }
 
-export async function getLLMText(page: InferPageType<typeof source>) {
+export async function getDocsLLMText(page: InferPageType<typeof source>) {
   const processed = await page.data.getText("processed");
   return `# ${page.data.title} (${page.url})\n\n${processed}`;
 }

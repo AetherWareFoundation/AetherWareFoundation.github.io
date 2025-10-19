@@ -2,10 +2,12 @@
 
 import { type FunctionComponent, useEffect, useMemo, useState } from "react";
 
+import {
+  type ButtonProps,
+  buttonVariants,
+} from "fumadocs-ui/components/ui/button";
 import { cn } from "fumadocs-ui/utils/cn";
 
-import { Button } from "../ui/button";
-import type { ButtonProps } from "@/components/ui/button";
 import {
   fetchGitHubRepository,
   type GitHubRepository,
@@ -15,12 +17,16 @@ import { useLocalStorageCache } from "@/lib/util/useLocalStorageCache";
 export type GitHubStarsProps = {
   repoTuple: string;
   nameMode?: "owner" | "repo" | "full" | "github" | "none";
+  className?: string;
 } & ButtonProps;
 
 export const GitHubStars: FunctionComponent<GitHubStarsProps> = ({
   repoTuple,
   nameMode = "none",
-  ...buttonProps
+  color,
+  size,
+  variant = "outline",
+  className,
 }) => {
   const cache = useLocalStorageCache("github-repository");
   const [_isLoading, setIsLoading] = useState(true);
@@ -70,12 +76,12 @@ export const GitHubStars: FunctionComponent<GitHubStarsProps> = ({
   }, [repoTuple, nameMode]);
 
   return (
-    <Button
-      size="sm"
-      variant="outline"
-      {...buttonProps}
-      asChild
-      className={cn("h-8 shadow-none", buttonProps.className)}
+    <button
+      type="button"
+      className={cn(
+        "h-8 shadow-none",
+        buttonVariants({ size, color, variant, className }),
+      )}
     >
       <a
         href={`https://github.com/${repoTuple}`}
@@ -100,6 +106,6 @@ export const GitHubStars: FunctionComponent<GitHubStarsProps> = ({
           {starsFormatted}
         </span>
       </a>
-    </Button>
+    </button>
   );
 };

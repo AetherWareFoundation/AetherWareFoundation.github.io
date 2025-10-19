@@ -1,11 +1,10 @@
 /** biome-ignore-all lint/suspicious/noUnknownAtRules: tailwindcss */
 
 @import "tailwindcss";
-
-@import "tw-animate-css";
-
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+
+@import "tw-animate-css";
 
 @utility min-h-section {
   @apply min-h-[calc(100dvh-(var(--spacing)*14)-var(--fd-banner-height))];
