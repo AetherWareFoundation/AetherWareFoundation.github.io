@@ -4,7 +4,20 @@ description: The Aether framework for building motion control applications in Ru
 icon: House
 ---
 
-## Overview
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
+import { CpuIcon, LightbulbIcon, PackageOpenIcon } from "lucide-react";
+
+<Callout type="warning">
+  ## This documentation is in its very early stages. [!toc] [#alpha-warning]
+  We are still working on the alpha release of Aether.<br />
+  Expect things to change and break frequently as we continue to develop the project.
+</Callout>
+
+
+## Overview [#overview]
 
 Aether is a Rust-based framework for high‑performance motion control. It is both a set of composable libraries and a host runtime that coordinates real‑time control across heterogeneous devices. The same building blocks power domain solutions like Aether Printer (3D printing) while remaining usable as standalone crates in other robotics and montion control contexts.
 
@@ -12,7 +25,8 @@ Aether is a Rust-based framework for high‑performance motion control. It is bo
 - The system can combine EtherCAT devices, Mesa cards, and “AetherMCU” boards in one installation.
 - Components emphasize determinism, tight real‑time loops, and low overhead.
 
-## Goals
+
+## Goals [#goals]
 
 - Be the obvious choice for robot motion control tasks.
 - Meet hard real‑time constraints (e.g., EtherCAT cycle times) while keeping higher‑level logic responsive.
@@ -22,56 +36,68 @@ Aether is a Rust-based framework for high‑performance motion control. It is bo
 - Log relevant metrics to reproduce exact machine state and motion paths.
 - To be a modern Rust based etherCAT capable LinuxCNC replacement.
 
-## Architecture
 
-- Core and Controller
-  - Core: hard real‑time. Executes motion schedules and device I/O within strict cycle budgets.
-  - Controller: soft real‑time. Feeds the core; if it falls behind, the core safely waits for new commands.
-  - Linking: prefer in‑process linking (controller + core in Rust) to avoid serialization and enable direct data sharing.
+## Architecture [#architecture]
 
-- Planner and Motion Queues
-  - Planner accepts long sequences (e.g., G‑code), enforces machine limits, and produces motion segments.
-  - Motion queues flow from planner to core; the core marks execution and exposes how much is committed for replanning.
-  - Control modes (e.g., position follower) sample from movement queues; the planner can update or replace segments.
+### Core and Controller
 
-- Interfaces and Versioning
-  - Keep controller↔core communication low‑overhead; link for compile‑time API guarantees.
-  - Introduce explicit serialization only when a stable external interface is required.
-  - Thin controller patterns allow wrappers (e.g., PyO3 or FFI) without compromising real‑time boundaries.
+- Core: hard real‑time. Executes motion schedules and device I/O within strict cycle budgets.
+- Controller: soft real‑time. Feeds the core; if it falls behind, the core safely waits for new commands.
+- Linking: prefer in‑process linking (controller + core in Rust) to avoid serialization and enable direct data sharing.
 
-- Scope and Discoverability
-  - Keep the real‑time path strictly EtherCAT to limit scope and ensure determinism.
-  - Integrate non‑real‑time pieces on the controller side.
-  - Use existing EtherCAT XML descriptors and add higher‑level descriptors when needed; the UI should identify connected hardware and map it to functions.
+### Planner and Motion Queues
 
-### High‑Level Diagram
+- Planner accepts long sequences (e.g., G‑code), enforces machine limits, and produces motion segments.
+- Motion queues flow from planner to core; the core marks execution and exposes how much is committed for replanning.
+- Control modes (e.g., position follower) sample from movement queues; the planner can update or replace segments.
 
-<Mermaid chart={"flowchart TD\n  UI[Aether UI] --> CTRL[Controller - soft RT]\n  CTRL --> PLAN[Planner + Motion Queue]\n  PLAN --> CTRL\n  CTRL --> CORE[Core - hard RT]\n  CORE --> EC[EtherCAT Network]\n  EC --> DEV[AetherMCU / Mesa / EtherCAT Devices]"} />
+### Interfaces and Versioning
 
-## Hardware & Protocols
+- Keep controller↔core communication low‑overhead; link for compile‑time API guarantees.
+- Introduce explicit serialization only when a stable external interface is required.
+- Thin controller patterns allow wrappers (e.g., PyO3 or FFI) without compromising real‑time boundaries.
 
-- Device Model
-  - Treat microcontroller nodes like EtherCAT devices.
-  - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
+### Scope and Discoverability
 
-- Boards and Drivers
-  - Focus on a curated set of BSPs (e.g., BTT Kraken, then Octopus) rather than a large hardware matrix.
-  - Prefer driver “direct mode” where possible; use very high effective microstepping on the device while keeping host communication compact.
+- Keep the real‑time path strictly EtherCAT to limit scope and ensure determinism.
+- Integrate non‑real‑time pieces on the controller side.
+- Use existing EtherCAT XML descriptors and add higher‑level descriptors when needed; the UI should identify connected hardware and map it to functions.
 
-- Packaging and Updates
-  - Aether Printer is distributable as a packaged binary.
-  - MCU updates depend on the platform (e.g., DFU on some boards; some EtherCAT devices may not be updated in the field).
-  - Minimize firmware churn by decoupling host releases from MCU firmware where feasible.
+### High‑Level Diagram [#high-level-diagram]
 
-## Aether Is Not:
+```mermaid
+flowchart TD
+  UI[Aether UI] --> CTRL[Controller - soft RT]
+  CTRL --> PLAN[Planner + Motion Queue]
+  PLAN --> CTRL
+  CTRL --> CORE[Core - hard RT]
+  CORE --> EC[EtherCAT Network]
+  EC --> ETHERCAT_DEV[EtherCAT Devices]
+  EC --> MESA[Mesa]
+  EC --> AETHERMCU[AetherMCU]
+```
 
-- Tied to vendor lock‑in or C++‑centric stacks.
-- Locked into recompiling MCU firmwares in lockstep with host releases; the system should discover and configure compatible devices.
-- Aiming for plug‑and‑play on arbitrary boards in early phases; curated BSPs keep complexity in check.
-- Chasing the extreme MCU flexibility approach; prioritize predictable, high‑performance hardware compositions.
-- On a fixed public timeline; quality and correctness come first.
 
-## What You Can Build
+## Hardware & Protocols [#hardware-protocols]
+
+<Cards>
+  <Card title="Device Model" icon={<LightbulbIcon />}>
+      - Treat microcontroller nodes like EtherCAT devices.
+      - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
+  </Card>
+  <Card title="Boards and Drivers" icon={<CpuIcon />}>
+    - Focus on a curated set of BSPs (e.g., BTT Kraken, then Octopus) rather than a large hardware matrix.
+    - Prefer driver “direct mode” where possible; use very high effective microstepping on the device while keeping host communication compact.
+  </Card>
+  <Card title="Packaging and Updates" icon={<PackageOpenIcon />}>
+    - Aether Printer is distributable as a packaged binary.
+    - MCU updates depend on the platform (e.g., DFU on some boards; some EtherCAT devices may not be updated in the field).
+    - Minimize firmware churn by decoupling host releases from MCU firmware where feasible.
+  </Card>
+</Cards>
+
+
+## What you can build [#what-you-can-build]
 
 Aether is a launchpad for motion‑centric projects — from hobby robots to production‑grade machines. Here are a few ways to put it to work:
 
@@ -85,83 +111,18 @@ Aether is a launchpad for motion‑centric projects — from hobby robots to pro
   - Re‑plan motion on the fly when sensors, cameras, or external systems provide late‑arriving inputs.
   - Keep hard real‑time in the core while pushing iterative logic to a responsive controller.
 
-## Where It Fits
+
+## Where it fits [#where-it-fits]
 
 - Aether provides the motion control substrate for robotics and machines that benefit from deterministic timing, EtherCAT networking, and modular composition.
 - For 3D printing, Aether Printer integrates these pieces into an end‑to‑end firmware stack.
 - Bridging to other ecosystems is possible via modules on the real‑time side without bending the core architecture.
 
-## Frequently Asked Questions
 
-<details>
-  <summary>What is Aether? How do “Aether Printer” and “AetherMCU” fit in?</summary>
-  <p>
-    Aether is the project and the set of libraries for motion control applications. 
-    Aether Printer is the 3D‑printer firmware built on that base. 
-    AetherMCU is the reference MCU implementation.
-  </p>
-</details>
+## What Aether is Not [#what-aether-is-not]
 
-<details>
-  <summary>How is Aether different from Klipper or Marlin?</summary>
-  <p>
-    Aether draws a hard boundary between host and MCU (both process and license). It favors board‑specific MCU builds over one generic firmware and avoids re‑flashing MCUs in lock‑step with host releases. On the wire, AetherMCU speaks a register‑based (fieldbus‑style) protocol rather than ad‑hoc commands.
-    Aether is a ground up redesign using current state of the art hardware and software methods.
-  </p>
-</details>
-
-<details>
-  <summary>What hardware will be supported first?</summary>
-  <p>
-    Initial target is the BTT Octopus with TMC5160s for initial release, then broader board coverage. The goal is to ship something that prints well on common, capable hardware and expand from there.
-  </p>
-</details>
-
-<details>
-  <summary>Will I need to update MCU firmware often?</summary>
-  <p>
-    No. Aether explicitly avoids frequent MCU updates tied to host changes. Occasional updates may happen, but device behavior should remain stable across controller versions.
-  </p>
-</details>
-
-<details>
-  <summary>Does Aether require EtherCAT? What’s the communication model?</summary>
-  <p>
-    An AetherMCU instance will be treated like an EtherCAT‑style device: deterministic cycles, register‑mapped IO, and descriptor‑based discovery/config. EtherCAT is first‑class, and bridging modules can be used where needed—no hard lock‑in.
-  </p>
-</details>
-
-<details>
-  <summary>Can I reuse existing Klipper MCUs or accessories within Aether Printer?</summary>
-  <p>
-    Direct reuse of a Klipper MCU isn’t planned. Some accessories that speak Klipper protocols may be bridged or re‑targeted, but the preference is Aether‑native or EtherCAT‑style devices for clean discovery/config and timing guarantees.
-  </p>
-</details>
-
-<details>
-  <summary>What performance targets are you aiming for?</summary>
-  <p>
-    On a Pi 5, the target control cycle is around 500 μs, with room to go lower using kernel/driver tuning. On MCUs, timer hardware (e.g., repetition counters) enables step rates far beyond typical host‑bit‑banged approaches.
-  </p>
-</details>
-
-<details>
-  <summary>How do device discovery and configuration work? Is hot‑plug planned?</summary>
-  <p>
-    Devices describe their resources (EtherCAT‑style). Discovery aims to be robust, but not everything is auto‑detectable—there is always a safe “not detected” fallback with manual configuration. Hot‑plug is planned where feasible; real‑time safety wins if there’s a trade‑off.
-  </p>
-</details>
-
-<details>
-  <summary>Which advanced features are in scope soon?</summary>
-  <p>
-    Real‑time capabilities: resonance compensation, live encoder feedback and lag detection (including extruder), closed‑loop/servo control, and a modern motion planner (aligned with ideas pioneered in Prunt). For 3D printers an MPC temperature control library will ship via a Rust port of the existing Marlin/Klipper work.
-  </p>
-</details>
-
-<details>
-  <summary>When will it be ready?</summary>
-  <p>
-    When it’s good. Near‑term: reach Klipper/Marlin‑parity on targeted hardware; then land the more ambitious features. Quality and correctness drive the schedule.
-  </p>
-</details>
+- Tied to vendor lock‑in or C++‑centric stacks.
+- Locked into recompiling MCU firmwares in lockstep with host releases; the system should discover and configure compatible devices.
+- Aiming for plug‑and‑play on arbitrary boards in early phases; curated BSPs keep complexity in check.
+- Chasing the extreme MCU flexibility approach; prioritize predictable, high‑performance hardware compositions.
+- On a fixed public timeline; quality and correctness come first.
