@@ -10,7 +10,7 @@ export async function GET(
   { params }: RouteContext<"/docs/llms.mdx/[[...slug]]">,
 ) {
   let { slug } = await params;
-  if (slug && slug.length > 0 && slug?.at(-1) === "index")
+  if (slug && slug.length > 0 && slug.at(-1) === "index.mdx")
     slug = slug.slice(0, -1);
   const page = source.getPage(slug);
   if (!page) notFound();
@@ -21,12 +21,24 @@ export async function GET(
 }
 
 export function generateStaticParams() {
-  const mapped = source.generateParams().map((p) => {
-    type Params = typeof p;
-    const page = source.getPage(p.slug);
-    if (page?.absolutePath.endsWith("/index.mdx"))
-      return { ...p, slug: [...p.slug, "index"] } satisfies Params;
-    return p;
-  });
+  const mapped = source
+    .generateParams()
+    .map((p) => {
+      type Params = typeof p;
+      const page = source.getPage(p.slug);
+      if (!page) return null;
+
+      const slugs = page.slugs;
+
+      // index would collide with directories
+      if (page.absolutePath.endsWith("/index.mdx")) slugs.push("index");
+
+      // add mdx extension
+      const last = slugs.pop();
+      slugs.push(`${last}.mdx`);
+
+      return { ...p, slug: slugs } satisfies Params;
+    })
+    .filter((p) => !!p);
   return mapped;
 }

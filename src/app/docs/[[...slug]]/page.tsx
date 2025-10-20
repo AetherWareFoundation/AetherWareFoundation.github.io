@@ -12,7 +12,7 @@ import {
   EditOnGitHub,
 } from "fumadocs-ui/page";
 
-import { getDocsPageImage, source } from "@/lib/content";
+import { getDocsMdxPath, getDocsPageImage, source } from "@/lib/content";
 import { DynamicLucideIcon } from "@/components/DynamicLucideIcon";
 import {
   DOCS_GITHUB_BRANCH,
@@ -35,7 +35,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   if (!page) notFound();
 
   const MDX = page.data.body;
-  const mdxUrl = `/docs/llms.mdx/${page.slugs.join("/")}${page.absolutePath.endsWith("/index.mdx") ? "/index" : ""}`;
+  const mdxUrl = getDocsMdxPath(page);
 
   return (
     <DocsPage

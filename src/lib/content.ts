@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 import type { InferPageType } from "fumadocs-core/source";
 import { loader } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/lucide-icons";
@@ -16,6 +18,15 @@ export function getDocsPageImage(page: InferPageType<typeof source>) {
     segments,
     url: `/og/docs/${segments.join("/")}`,
   };
+}
+
+export function getDocsMdxPath(
+  page: InferPageType<typeof source>,
+): Route<`/docs/llms.mdx/${string}`> {
+  const isIndex = page.absolutePath.endsWith("/index.mdx");
+  const slug = `${page.slugs.join("/")}${isIndex ? "/index" : ""}.mdx`;
+
+  return `/docs/llms.mdx/${slug}`;
 }
 
 export async function getDocsLLMText(page: InferPageType<typeof source>) {
