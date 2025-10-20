@@ -18,6 +18,7 @@ import {
   DOCS_GITHUB_BRANCH,
   DOCS_GITHUB_OWNER,
   DOCS_GITHUB_REPO,
+  SITE_BASE_URL,
 } from "@/config";
 import { getMDXComponents } from "@/mdx-components";
 
@@ -118,11 +119,17 @@ export async function generateMetadata(
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const image = getDocsPageImage(page);
+
   return {
     title: page.data.title,
     description: page.data.description,
     openGraph: {
-      images: getDocsPageImage(page).url,
+      images: image.url,
     },
+    twitter: {
+      images: image.url,
+    },
+    metadataBase: new URL(SITE_BASE_URL),
   };
 }

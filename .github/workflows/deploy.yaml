@@ -22,6 +22,8 @@ jobs:
         run: bun run lint
       - name: Build
         run: bun run build
+        env:
+          NEXT_PUBLIC_SITE_HOST: ${{ vars.SITE_HOST }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,3 +1,7 @@
+import type { Metadata } from "next";
+
+import { SITE_BASE_URL } from "@/config";
+
 import { Hero } from "@/components/marketing/Hero";
 
 export default function LandingPage() {
@@ -54,4 +58,15 @@ export default function LandingPage() {
       </section>
     </main>
   );
+}
+
+export async function generateMetadata(
+  _props: PageProps<"/">,
+): Promise<Metadata> {
+  return {
+    title: "Aether",
+    description:
+      "Aether is a motion control ecosystem for the robotics of tomorrow.",
+    metadataBase: new URL(SITE_BASE_URL),
+  };
 }
