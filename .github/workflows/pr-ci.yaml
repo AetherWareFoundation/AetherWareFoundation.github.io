@@ -1,4 +1,4 @@
-name: PR Lint
+name: PR continuous integration
 
 on:
   pull_request_target:
