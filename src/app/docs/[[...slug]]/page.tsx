@@ -3,6 +3,7 @@ import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Fragment } from "react";
 
 import {
   DocsBody,
@@ -11,6 +12,8 @@ import {
   DocsTitle,
   EditOnGitHub,
 } from "fumadocs-ui/page";
+
+import { DotIcon } from "lucide-react";
 
 import { getDocsMdxPath, getDocsPageImage, source } from "@/lib/content";
 import { DynamicLucideIcon } from "@/components/DynamicLucideIcon";
@@ -47,7 +50,23 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
       tableOfContent={{ style: "clerk" }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+      <DocsDescription>
+        {page.data.description}
+
+        {(page.data.authors?.length ?? 0) > 0 && (
+          <p className="text-xs text-fd-muted-foreground pt-2 flex items-center gap-2">
+            <span className="font-semibold">Written by</span>
+            <div className="flex items-center gap-[0.1rem]">
+              {page.data.authors?.map((author, i) => (
+                <Fragment key={author}>
+                  {i > 0 && <DotIcon className="size-3 -mx-0.5" />}
+                  {author}
+                </Fragment>
+              ))}
+            </div>
+          </p>
+        )}
+      </DocsDescription>
 
       <div className="flex flex-row items-center justify-between border-b pb-6">
         <div className="flex flex-row gap-2 items-center">
