@@ -22,11 +22,32 @@ export function getDocsPageImage(page: InferPageType<typeof source>) {
 
 export function getDocsMdxPath(
   page: InferPageType<typeof source>,
-): Route<`/docs/llms.mdx/${string}`> {
-  const isIndex = page.absolutePath.endsWith("/index.mdx");
-  const slug = `${page.slugs.join("/")}${isIndex ? "/index" : ""}.mdx`;
+): Route<`/docs-llm/${string}`> {
+  return `/docs-llm/${page.slugs.join("/")}.md`;
+}
 
-  return `/docs/llms.mdx/${slug}`;
+export function getDocsMdxSlug(
+  page: InferPageType<typeof source>,
+): Array<string> {
+  const slugs = [...page.slugs]; // make a copy, messes with the build otherwise
+
+  // add md extension
+  const last = slugs.pop();
+  slugs.push(`${last}.md`);
+
+  return slugs;
+}
+
+export function getDocsPageFromMdxUrl(
+  slug: Array<string>,
+): InferPageType<typeof source> | undefined {
+  const slugs = [...slug];
+  if (slugs.length > 0) {
+    const s = slugs.pop();
+    if (s) slugs.push(s.replace(".md", ""));
+  }
+  console.log(slugs);
+  return source.getPage(slugs);
 }
 
 export async function getDocsLLMText(page: InferPageType<typeof source>) {

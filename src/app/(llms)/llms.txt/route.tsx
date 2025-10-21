@@ -5,7 +5,7 @@ export const revalidate = false;
 
 export async function GET() {
   const scanned: string[] = [];
-  scanned.push(`# ${SITE_NAME} Docs`);
+  scanned.push(`# ${SITE_NAME} Documentation`);
   const map = new Map<string, string[]>();
 
   for (const page of source.getPages()) {
