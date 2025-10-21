@@ -11,8 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
+          fetch-depth: 1 # we don't need the history, just the latest commit - this breaks "last updated" doc pages though!
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
