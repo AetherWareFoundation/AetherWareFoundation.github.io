@@ -30,6 +30,7 @@ export function StaticSearchDialog(props: SharedProps) {
     type: "static",
     initOrama,
     locale,
+    from: "/api/search.json",
   });
 
   return (
