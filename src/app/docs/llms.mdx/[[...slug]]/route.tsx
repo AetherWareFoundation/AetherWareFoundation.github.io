@@ -28,7 +28,7 @@ export function generateStaticParams() {
       const page = source.getPage(p.slug);
       if (!page) return null;
 
-      const slugs = page.slugs;
+      const slugs = [...page.slugs]; // make a copy, messes with the build otherwise
 
       // index would collide with directories
       if (page.absolutePath.endsWith("/index.mdx")) slugs.push("index");
