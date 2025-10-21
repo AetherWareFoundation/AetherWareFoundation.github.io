@@ -50,7 +50,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
       tableOfContent={{ style: "clerk" }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>
+      <DocsDescription className="mb-0">
         {page.data.description}
 
         {(page.data.authors?.length ?? 0) > 0 && (
