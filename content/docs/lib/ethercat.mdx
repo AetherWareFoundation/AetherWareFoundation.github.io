@@ -4,17 +4,15 @@ description: What EtherCAT is, how it works, and why Aether adopts an EtherCAT�
 icon: Network
 ---
 
-## What Is EtherCAT?
+## What Is EtherCAT? [#what-is-ethercat]
 
-EtherCAT is a real‑time fieldbus that runs over standard Ethernet PHYs. A single master sends a frame that traverses every device (slave) on the line; each device reads and writes its data “on the fly” at wire speed. The frame returns to the master with all process data applied for that cycle.
+The [EtherCAT](https'://en.wikipedia.org/wiki/EtherCAT') protocol is utilized in the Aether project due to its nature as a real-time [fieldbus](https'://en.wikipedia.org/wiki/Fieldbus') that operates over standard Ethernet. In this system, a single master transmits a frame that passes through every slave device in the network. Each device reads and writes its data to this frame at the set transmission speed as it passes "on the fly." Once the frame has visited every device, it returns to the master, carrying all the updated process data for that cycle.
 
-- Master/slave topology with line, tree/branch, or ring wiring.
-- Deterministic cycle times and very low jitter at 100 Mbit/s.
-- Distributed Clocks synchronize all nodes to a common time base.
-- Two paths: fast cyclic process data (PDOs) and mailbox/SDO for configuration.
-- No IP/TCP/UDP in the hard real‑time path; frames are processed directly by slaves.
+This protocol is built on a flexible master/slave topology, which allows for various wiring configurations such as a line, tree, branch, or ring. Operating typically at 100 Mbit/s, EtherCAT ensures deterministic cycle times with low jitter. A key feature is its use of **Distributed Clocks**, which synchronize all nodes to a single, common time base, ensuring cohesive operation of devices across the network.
 
-This pattern is ideal for multi‑axis motion control: the master commits a schedule, all axes update in lock‑step, and sensors/encoders are sampled in the same cycle.
+Data communication is managed through two distinct paths: a fast, cyclic path for process data and a separate mailbox channel for configuration data. To achieve hard real-time performance, the protocol avoids the overhead of IP/TCP/UDP for process data; instead, the frames are processed directly by the slave devices.
+
+> This pattern is well suited for multi-axis motion control, as it allows the master to commit a schedule, ensuring all axes update in precise lock-step while sensors and encoders are sampled within the same cycle.
 
 ## How Aether Uses It
 
@@ -42,8 +40,12 @@ Compared to CAN, UART, and USB, EtherCAT provides deterministic low‑jitter cyc
 
 ## FAQ
 
-- Does Aether require EtherCAT?
-  - No. EtherCAT is first‑class because it provides strong determinism and clean device integration, but Aether can run with an Aether‑native register bus and use bridges where appropriate. The architecture keeps the real‑time path “EtherCAT‑style” regardless, so adopting EtherCAT later is straightforward.
+<Accordions>
+  <Accordion title="Does Aether require EtherCAT?">
+  No. EtherCAT is first‑class because it provides strong determinism and clean device integration, but Aether can run with an Aether‑native register bus and use bridges where appropriate. The architecture keeps the real‑time path “EtherCAT‑style” regardless, so adopting EtherCAT later is straightforward.
+</Accordion>
 
-- What devices go on EtherCAT?
-  - Motor drives (steppers/servos), I/O modules (fans, heaters, end‑stops), encoders/sensors, and probe hardware like Beacon in 3D printing applications. Non‑real‑time peripherals remain on the controller side.
+<Accordions>
+  <Accordion title="What devices go on EtherCAT?">
+  Motor drives (steppers/servos), I/O modules (fans, heaters, end‑stops), encoders/sensors, and probe hardware like Beacon in 3D printing applications. Non‑real‑time peripherals remain on the controller side.
+</Accordion>
