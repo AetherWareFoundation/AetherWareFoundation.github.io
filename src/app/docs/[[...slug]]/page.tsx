@@ -1,9 +1,9 @@
 import path from "node:path";
 
-import type { Metadata } from "next";
+import type { Metadata, Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Fragment } from "react";
+import { type ComponentPropsWithoutRef, Fragment } from "react";
 
 import {
   DocsBody,
@@ -13,7 +13,7 @@ import {
   EditOnGitHub,
 } from "fumadocs-ui/page";
 
-import { DotIcon } from "lucide-react";
+import { DotIcon, ExternalLink } from "lucide-react";
 
 import { getDocsMdxPath, getDocsPageImage, source } from "@/lib/content";
 import { DynamicLucideIcon } from "@/components/DynamicLucideIcon";
@@ -81,15 +81,33 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         </div>
       </div>
 
-      <DocsBody>
+      <DocsBody className="docs-body">
         <MDX
           components={getMDXComponents({
-            a: ({ href, ...props }) => {
+            a: ({ href, ...props }: ComponentPropsWithoutRef<"a">) => {
               const found = source.getPageByHref(href ?? "", {
                 dir: path.dirname(page.path),
               });
 
-              if (!found) return <Link href={href} {...props} />;
+              // link is not a docs page
+              if (!found) {
+                const isExternal =
+                  href?.match(/^https?:\/\//) && !href?.includes(SITE_BASE_URL);
+
+                return (
+                  <span className="relative inline-block">
+                    <Link
+                      href={href as Route}
+                      {...props}
+                      target={isExternal ? "_blank" : undefined}
+                    />
+                    {isExternal && (
+                      <ExternalLink className="inline-block ml-0.5 size-2.5 align-super text-current" />
+                    )}
+                  </span>
+                );
+              }
+
               const pageHref = found.hash
                 ? `${found.page.url}#${found.hash}`
                 : found.page.url;
