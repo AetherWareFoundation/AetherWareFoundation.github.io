@@ -54,7 +54,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         {page.data.description}
 
         {(page.data.authors?.length ?? 0) > 0 && (
-          <p className="text-xs text-fd-muted-foreground pt-2 flex items-center gap-2">
+          <div className="text-xs text-fd-muted-foreground pt-2 flex items-center gap-2">
             <span className="font-semibold">Written by</span>
             <div className="flex items-center gap-[0.1rem]">
               {page.data.authors?.map((author, i) => (
@@ -64,7 +64,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
                 </Fragment>
               ))}
             </div>
-          </p>
+          </div>
         )}
       </DocsDescription>
 
