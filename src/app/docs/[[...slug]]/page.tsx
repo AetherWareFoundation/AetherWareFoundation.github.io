@@ -108,9 +108,9 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
                 );
               }
 
-              const pageHref = found.hash
-                ? `${found.page.url}#${found.hash}`
-                : found.page.url;
+              const pageHref = (
+                found.hash ? `${found.page.url}#${found.hash}` : found.page.url
+              ) as Route;
 
               return (
                 <HoverCard>
