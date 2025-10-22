@@ -10,20 +10,25 @@ import { isLinkExternal } from "@/lib/util/helpers";
 
 export type SafeLinkProps = {
   iconClassName?: string;
+  forceExternal?: boolean;
   disableIcon?: boolean;
   disablePrivacy?: boolean;
 } & LinkProps<Route>;
 
 export const SafeLink: FunctionComponent<SafeLinkProps> = ({
+  // LinkProps
   href,
   rel,
   className,
+  iconClassName,
+  // own props
+  forceExternal,
   disableIcon,
   disablePrivacy,
-  iconClassName,
+  // LinkProps rest
   ...props
 }) => {
-  const isExternal = isLinkExternal(href.toString() ?? "");
+  const isExternal = forceExternal || isLinkExternal(href.toString() ?? "");
   const additionalRel =
     isExternal && !disablePrivacy ? " noreferrer noopener" : "";
 
