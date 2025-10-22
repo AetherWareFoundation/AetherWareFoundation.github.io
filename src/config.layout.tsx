@@ -1,12 +1,8 @@
 import type { Route } from "next";
 
-import type { BaseLayoutProps, LinkItemType } from "fumadocs-ui/layouts/shared";
+import type { LinkItemType } from "fumadocs-ui/layouts/shared";
 
-import { FileTextIcon } from "lucide-react";
-
-import { SITE_NAME } from "@/config";
-
-import { Logo } from "./components/Logo";
+import { FileTextIcon, HandHeartIcon, HandshakeIcon } from "lucide-react";
 
 export const linkItems: Array<LinkItemType> = [
   // main navigation
@@ -14,6 +10,16 @@ export const linkItems: Array<LinkItemType> = [
     icon: <FileTextIcon />,
     text: "Documentation",
     url: "/docs/lib",
+  },
+  {
+    icon: <HandshakeIcon />,
+    text: "About us",
+    url: "#",
+  },
+  {
+    icon: <HandHeartIcon />,
+    text: "Sponsors",
+    url: "#",
   },
 
   // small icons to the right
@@ -31,15 +37,3 @@ export const linkItems: Array<LinkItemType> = [
     secondary: true,
   },
 ];
-
-export const sharedBaseLayoutOptions: BaseLayoutProps = {
-  nav: {
-    title: (
-      <>
-        <Logo />
-        {SITE_NAME}
-      </>
-    ),
-  },
-  links: [],
-};

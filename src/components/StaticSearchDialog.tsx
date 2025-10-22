@@ -25,7 +25,6 @@ function initOrama() {
 
 export function StaticSearchDialog(props: SharedProps) {
   const { locale } = useI18n();
-
   const { search, setSearch, query } = useDocsSearch({
     type: "static",
     initOrama,
