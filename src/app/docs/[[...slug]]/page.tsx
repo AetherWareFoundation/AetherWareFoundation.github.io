@@ -1,7 +1,6 @@
 import path from "node:path";
 
 import type { Metadata, Route } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type ComponentPropsWithoutRef, Fragment } from "react";
 
@@ -13,10 +12,10 @@ import {
   EditOnGitHub,
 } from "fumadocs-ui/page";
 
-import { DotIcon, ExternalLink } from "lucide-react";
+import { DotIcon } from "lucide-react";
 
 import { getDocsMdxPath, getDocsPageImage, source } from "@/lib/content";
-import { DynamicLucideIcon } from "@/components/DynamicLucideIcon";
+import { SafeLink } from "@/components/SafeLink";
 import {
   DOCS_GITHUB_BRANCH,
   DOCS_GITHUB_OWNER,
@@ -26,11 +25,7 @@ import {
 import { getMDXComponents } from "@/mdx-components";
 
 import { AiActions, CopyMarkdownButton } from "@/components/docs/PageActions";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { PageLink } from "@/components/docs/PageLink";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const params = await props.params;
@@ -90,53 +85,8 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
               });
 
               // link is not a docs page
-              if (!found) {
-                const isExternal =
-                  href?.match(/^https?:\/\//) && !href?.includes(SITE_BASE_URL);
-
-                return (
-                  <span className="relative inline-block">
-                    <Link
-                      href={href as Route}
-                      {...props}
-                      target={isExternal ? "_blank" : undefined}
-                    />
-                    {isExternal && (
-                      <ExternalLink className="inline-block ml-0.5 size-2.5 align-super text-current" />
-                    )}
-                  </span>
-                );
-              }
-
-              const pageHref = (
-                found.hash ? `${found.page.url}#${found.hash}` : found.page.url
-              ) as Route;
-
-              return (
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <Link href={pageHref} {...props} />
-                  </HoverCardTrigger>
-                  <HoverCardContent className="text-sm w-96">
-                    <div className="flex justify-between gap-4">
-                      {found.page.data.icon && (
-                        <DynamicLucideIcon
-                          icon={found.page.data.icon}
-                          className="size-6"
-                        />
-                      )}
-                      <div className="space-y-1 flex-1">
-                        <h4 className="font-semibold">
-                          {found.page.data.title}
-                        </h4>
-                        <p className="text-sm text-fd-muted-foreground">
-                          {found.page.data.description}
-                        </p>
-                      </div>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
-              );
+              if (!found) return <SafeLink href={href as Route} {...props} />;
+              return <PageLink page={found} {...props} />;
             },
           })}
         />

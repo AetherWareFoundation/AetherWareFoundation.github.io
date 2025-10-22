@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 
 import { SITE_BASE_URL } from "@/config";
 
+import {
+  FeatureSection,
+  FeatureSectionItem,
+} from "@/components/marketing/FeatureSection";
 import { Hero } from "@/components/marketing/Hero";
 
 export default function LandingPage() {
@@ -21,41 +25,17 @@ export default function LandingPage() {
         />
       </section>
 
-      <section className="relative py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            <span className="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">
-              Features
-            </span>
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg border border-white/10 bg-white/5 backdrop-blur-lg">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                Precision Control
-              </h3>
-              <p className="text-white/60">
-                Advanced algorithms for smooth and accurate motion control.
-              </p>
-            </div>
-            <div className="p-6 rounded-lg border border-white/10 bg-white/5 backdrop-blur-lg">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                Easy Integration
-              </h3>
-              <p className="text-white/60">
-                Simple APIs and SDKs to get your robots moving quickly.
-              </p>
-            </div>
-            <div className="p-6 rounded-lg border border-white/10 bg-white/5 backdrop-blur-lg">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                Real-time Feedback
-              </h3>
-              <p className="text-white/60">
-                Monitor and adjust motion parameters on the fly.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <FeatureSection>
+        <FeatureSectionItem title="Precision Control">
+          Advanced algorithms for smooth and accurate motion control.
+        </FeatureSectionItem>
+        <FeatureSectionItem title="Easy Integration">
+          Simple APIs and SDKs to get your robots moving quickly.
+        </FeatureSectionItem>
+        <FeatureSectionItem title="Real-time Feedback">
+          Monitor and adjust motion parameters on the fly.
+        </FeatureSectionItem>
+      </FeatureSection>
     </main>
   );
 }

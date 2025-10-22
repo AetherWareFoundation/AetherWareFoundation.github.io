@@ -1,3 +1,9 @@
+export type GitHubContributor = {
+  avatar_url: string;
+  login: string;
+  contributions: number;
+};
+
 export type GitHubOwner = {
   name?: string | null;
   email?: string | null;

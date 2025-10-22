@@ -1,16 +1,17 @@
 import type { Route } from "next";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { cn } from "fumadocs-ui/utils/cn";
 
+import { SafeLink } from "../SafeLink";
+
 export type HeroProps<TMain extends string, TAlt extends string> = {
-  titleLine1: string;
-  titleLine2: string;
-  description: string;
-  mainButtonText: string;
+  titleLine1: ReactNode;
+  titleLine2: ReactNode;
+  description: ReactNode;
+  mainButtonText: ReactNode;
   mainButtonHref: Route<TMain>;
-  altButtonText: string;
+  altButtonText: ReactNode;
   altButtonHref: Route<TAlt>;
   background: { youtubeUrl: string } | { from: string; to: string };
   className?: string;
@@ -93,8 +94,9 @@ export function Hero<TMain extends string, TAlt extends string>({
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <Link
-                href={mainButtonHref}
+              <SafeLink
+                href={mainButtonHref as Route}
+                disableIcon
                 className="group relative w-full sm:w-auto px-6 py-3 min-w-[160px] cursor-pointer"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-lg"></div>
@@ -118,14 +120,15 @@ export function Hero<TMain extends string, TAlt extends string>({
                     />
                   </svg>
                 </div>
-              </Link>
+              </SafeLink>
 
-              <Link
-                href={altButtonHref}
+              <SafeLink
+                href={altButtonHref as Route}
+                disableIcon
                 className="w-full sm:w-auto px-6 py-3 rounded-lg border border-white/10 bg-white/5 backdrop-blur-lg text-white/70 hover:bg-white/10 hover:text-white transition-all min-w-[160px] cursor-pointer"
               >
                 {altButtonText}
-              </Link>
+              </SafeLink>
             </div>
           </div>
 
