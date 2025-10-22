@@ -25,7 +25,7 @@ export default function LandingPage() {
         />
       </section>
 
-      <FeatureSection>
+      <FeatureSection title="Batteries included? We think so.">
         <FeatureSectionItem title="Precision Control">
           Advanced algorithms for smooth and accurate motion control.
         </FeatureSectionItem>
