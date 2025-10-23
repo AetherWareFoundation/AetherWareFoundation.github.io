@@ -8,7 +8,7 @@ import { Callout } from "fumadocs-ui/components/callout";
 import { Cards, Card } from "fumadocs-ui/components/card";
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
-import { CpuIcon, LightbulbIcon, PackageOpenIcon } from "lucide-react";
+import { Cpu, Lightbulb, PackageOpen } from "lucide-react";
 
 <Callout type="warning">
   ## This documentation is in its very early stages. [!toc] [#alpha-warning]
@@ -81,15 +81,15 @@ flowchart TD
 ## Hardware & Protocols [#hardware-protocols]
 
 <Cards>
-  <Card title="Device Model" icon={<LightbulbIcon />}>
+  <Card title="Device Model" icon={<Lightbulb />}>
       - Treat microcontroller nodes like EtherCAT devices.
       - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
   </Card>
-  <Card title="Boards and Drivers" icon={<CpuIcon />}>
+  <Card title="Boards and Drivers" icon={<Cpu />}>
     - Focus on a curated set of BSPs (e.g., BTT Kraken, then Octopus) rather than a large hardware matrix.
     - Prefer driver “direct mode” where possible; use very high effective microstepping on the device while keeping host communication compact.
   </Card>
-  <Card title="Packaging and Updates" icon={<PackageOpenIcon />}>
+  <Card title="Packaging and Updates" icon={<PackageOpen />}>
     - Aether Printer is distributable as a packaged binary.
     - MCU updates depend on the platform (e.g., DFU on some boards; some EtherCAT devices may not be updated in the field).
     - Minimize firmware churn by decoupling host releases from MCU firmware where feasible.
