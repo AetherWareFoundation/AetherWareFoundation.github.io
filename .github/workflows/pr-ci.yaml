@@ -15,10 +15,8 @@ jobs:
         with:
           fetch-depth: 1 # we don't need the history, just the latest commit - this breaks "last updated" doc pages though!
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: ".bun-version"
+      - name: Setup Tools
+        uses: jdx/mise-action@v3
       - name: Install dependencies
         run: bun install
       - name: Lint
