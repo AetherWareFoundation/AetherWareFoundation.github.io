@@ -6,9 +6,19 @@ icon: House
 
 import { Callout } from "fumadocs-ui/components/callout";
 import { Cards, Card } from "fumadocs-ui/components/card";
-import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
-
-import { Cpu, Lightbulb, PackageOpen } from "lucide-react";
+import { Steps, Step } from "fumadocs-ui/components/steps";
+import {
+  Cpu,
+  Gauge,
+  Layers,
+  Lightbulb,
+  Network,
+  PackageOpen,
+  Radar,
+  Rocket,
+  Timer,
+  Boxes,
+} from "lucide-react";
 
 <Callout type="warning">
   ## This documentation is in its very early stages. [!toc] [#alpha-warning]
@@ -19,22 +29,120 @@ import { Cpu, Lightbulb, PackageOpen } from "lucide-react";
 
 ## Overview [#overview]
 
-Aether is a Rust-based framework for high‑performance motion control. It is both a set of composable libraries and a host runtime that coordinates real‑time control across heterogeneous devices. The same building blocks power domain solutions like Aether Printer (3D printing) while remaining usable as standalone crates in other robotics and montion control contexts.
+Aether is the Rust-native framework for high-performance motion control. It blends composable crates with a host runtime that synchronizes real-time workloads across heterogeneous devices. The same building blocks power domain solutions like Aether Printer while remaining reusable in other robotics and motion control contexts.
 
-- Libraries compose into applications and can be used independently.
-- The system can combine EtherCAT devices, Mesa cards, and “AetherMCU” boards in one installation.
-- Components emphasize determinism, tight real‑time loops, and low overhead.
+<div className="mt-8 lib-overview-steps">
+  <style>{`
+    .lib-overview-steps .fd-steps {
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+    }
+    .lib-overview-steps .fd-step {
+      position: relative;
+    }
+    .lib-overview-steps .fd-step::before {
+      display: none;
+    }
+  `}</style>
+  <Steps>
+    <Step>
+      <div className="flex items-center gap-5">
+        <div
+          className="not-prose flex items-center justify-center rounded-full border"
+          style={{
+            borderColor: "var(--doc-color-lib)",
+            backgroundColor: "hsla(141, 53%, 53%, 0.1)",
+            color: "var(--doc-color-lib)",
+            width: "3rem",
+            height: "3rem",
+          }}
+        >
+          <Layers className="h-5 w-5" />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-base font-semibold text-fd-card-foreground">Composable building blocks</h3>
+          <p className="text-sm text-fd-muted-foreground">
+            Compose libraries into turnkey applications or adopt them piecemeal inside existing controllers—no heavy framework baggage required.
+          </p>
+        </div>
+      </div>
+    </Step>
+    <Step>
+      <div className="mt-6 flex items-center gap-5">
+        <div
+          className="not-prose flex items-center justify-center rounded-full border"
+          style={{
+            borderColor: "var(--doc-color-lib)",
+            backgroundColor: "hsla(141, 53%, 53%, 0.1)",
+            color: "var(--doc-color-lib)",
+            width: "3rem",
+            height: "3rem",
+          }}
+        >
+          <Network className="h-5 w-5" />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-base font-semibold text-fd-card-foreground">Unified fieldbus orchestration</h3>
+          <p className="text-sm text-fd-muted-foreground">
+            Blend EtherCAT devices, Mesa cards, and custom AetherMCU boards into one coordinated installation without compromising determinism.
+          </p>
+        </div>
+      </div>
+    </Step>
+    <Step>
+      <div className="mt-6 flex items-center gap-5">
+        <div
+          className="not-prose flex items-center justify-center rounded-full border"
+          style={{
+            borderColor: "var(--doc-color-lib)",
+            backgroundColor: "hsla(141, 53%, 53%, 0.1)",
+            color: "var(--doc-color-lib)",
+            width: "3rem",
+            height: "3rem",
+          }}
+        >
+          <Gauge className="h-5 w-5" />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-base font-semibold text-fd-card-foreground">Determinism by design</h3>
+          <p className="text-sm text-fd-muted-foreground">
+            Keep tight real-time loops on budget with zero-added overhead so planners, controllers, and the hard real-time core stay perfectly in lockstep.
+          </p>
+        </div>
+      </div>
+    </Step>
+  </Steps>
+</div>
 
 
 ## Goals [#goals]
 
-- Be the obvious choice for robot motion control tasks.
-- Meet hard real‑time constraints (e.g., EtherCAT cycle times) while keeping higher‑level logic responsive.
-- Enable zero‑copy, low‑overhead interfaces between controller and core.
-- Provide modular crates with stable surfaces and compile‑time enforced versioning where linked.
-- Support device discoverability and simple configuration of devices through well‑defined descriptors.
-- Log relevant metrics to reproduce exact machine state and motion paths.
-- To be a modern Rust based etherCAT capable LinuxCNC replacement.
+<Cards className="mt-6">
+  <Card title="Mission-first motion" icon={<Rocket className="text-red-500" />}>
+    <p>
+      Make Aether the obvious choice for robot motion control and the modern, Rust-native successor to LinuxCNC—with EtherCAT support baked in from day one.
+    </p>
+  </Card>
+  <Card title="Real-time confidence" icon={<Timer className="text-sky-500" />}>
+    <p>
+      Meet hard EtherCAT cycle times while higher-level logic stays responsive, thanks to zero-copy, low-overhead interfaces between the controller and the real-time core.
+    </p>
+  </Card>
+  <Card title="Composable Rust surface" icon={<Boxes className="text-amber-400" />}>
+    <p>
+      Ship modular crates with stable APIs and compile-time enforced versioning so integrators can mix capabilities and evolve systems without breakage.
+    </p>
+  </Card>
+  <Card
+    title="Discoverable and observable"
+    icon={<Radar style={{ color: "var(--doc-color-lib)" }} />}
+  >
+    <p>
+      Lean on well-defined device descriptors for quick configuration and record the metrics needed to replay motion paths and machine state with precision.
+    </p>
+  </Card>
+</Cards>
 
 
 ## Architecture [#architecture]
