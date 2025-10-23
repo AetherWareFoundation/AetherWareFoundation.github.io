@@ -6,22 +6,24 @@ icon: House
 
 import { Callout } from "fumadocs-ui/components/callout";
 import { Cards, Card } from "fumadocs-ui/components/card";
-import { Steps, Step } from "fumadocs-ui/components/steps";
+
+import { Showcases, Showcase } from "@/components/mdx/Showcase";
+
 import {
-  Cpu,
-  Gauge,
-  Layers,
-  Lightbulb,
-  Network,
-  PackageOpen,
-  Radar,
-  Rocket,
-  Timer,
-  Boxes,
+  CpuIcon,
+  GaugeIcon,
+  LayersIcon,
+  LightbulbIcon,
+  NetworkIcon,  
+  PackageOpenIcon,
+  RadarIcon,
+  RocketIcon,
+  TimerIcon,
+  BoxesIcon,
 } from "lucide-react";
 
 <Callout type="warning">
-  ## This documentation is in its very early stages. [!toc] [#alpha-warning]
+  ### This documentation is in its very early stages. [!toc] [#alpha-warning]
   We are still working on the alpha release of Aether.<br />
   Expect things to change and break frequently as we continue to develop the project.
 </Callout>
@@ -31,83 +33,35 @@ import {
 
 Aether is the Rust-native framework for high-performance motion control. It blends composable crates with a host runtime that synchronizes real-time workloads across heterogeneous devices. The same building blocks power domain solutions like Aether Printer while remaining reusable in other robotics and motion control contexts.
 
-<div className="mt-4 lib-overview-steps">
-  <style>{`
-    .lib-overview-steps .fd-steps {
-      margin-left: 0;
-      padding-left: 0;
-      border-left: none;
-    }
-    .lib-overview-steps .fd-step {
-      position: relative;
-    }
-    .lib-overview-steps .fd-step::before {
-      display: none;
-    }
-  `}</style>
-  <Steps>
-    <Step>
-      <div className="flex items-center gap-4">
-        <Layers className="h-8 w-8 flex-none" color="var(--doc-color-lib)" />
-        <div className="space-y-2">
-          <h3 className="text-base font-semibold text-fd-card-foreground">Composable building blocks</h3>
-          <span className="block text-sm leading-6 text-fd-muted-foreground">
-            Compose libraries into turnkey applications or adopt them piecemeal inside existing controllers—no heavy framework baggage required.
-          </span>
-        </div>
-      </div>
-    </Step>
-    <Step>
-      <div className="mt-1 flex items-center gap-4">
-        <Network className="h-8 w-8 flex-none" color="var(--doc-color-lib)" />
-        <div className="space-y-2">
-          <h3 className="text-base font-semibold text-fd-card-foreground">Unified fieldbus orchestration</h3>
-          <span className="block text-sm leading-6 text-fd-muted-foreground">
-            Blend EtherCAT devices, Mesa cards, and custom AetherMCU boards into one coordinated installation without compromising determinism.
-          </span>
-        </div>
-      </div>
-    </Step>
-    <Step>
-      <div className="mt-1 flex items-center gap-4">
-        <Gauge className="h-8 w-8 flex-none" color="var(--doc-color-lib)" />
-        <div className="space-y-2">
-          <h3 className="text-base font-semibold text-fd-card-foreground">Determinism by design</h3>
-          <span className="block text-sm leading-6 text-fd-muted-foreground">
-            Keep tight real-time loops on budget with zero-added overhead so planners, controllers, and the hard real-time core stay perfectly in lockstep.
-          </span>
-        </div>
-      </div>
-    </Step>
-  </Steps>
-</div>
+<Showcases>
+  <Showcase title="Composable building blocks" icon={<LayersIcon />}>
+    Compose libraries into turnkey applications or adopt them piecemeal inside existing controllers—no heavy framework baggage required.
+  </Showcase>
+
+  <Showcase title="Unified fieldbus orchestration" icon={<NetworkIcon />}>
+    Blend EtherCAT devices, Mesa cards, and custom AetherMCU boards into one coordinated installation without compromising determinism.
+  </Showcase>
+
+  <Showcase title="Determinism by design" icon={<GaugeIcon />}>
+    Keep tight real-time loops on budget with zero-added overhead so planners, controllers, and the hard real-time core stay perfectly in lockstep.
+  </Showcase>
+</Showcases>
 
 
 ## Goals [#goals]
 
-<Cards className="mt-4">
-  <Card title="Mission-first motion" icon={<Rocket className="text-red-500" />}>
-    <span className="block leading-6 text-fd-muted-foreground">
-      Make Aether the obvious choice for robot motion control and the modern, Rust-native successor to LinuxCNC—with EtherCAT support baked in from day one.
-    </span>
+<Cards>
+  <Card title="Mission-first motion" icon={<RocketIcon />}>
+    Make Aether the obvious choice for robot motion control and the modern, Rust-native successor to LinuxCNC—with EtherCAT support baked in from day one.
   </Card>
-  <Card title="Real-time confidence" icon={<Timer className="text-sky-500" />}>
-    <span className="block leading-6 text-fd-muted-foreground">
-      Meet hard EtherCAT cycle times while higher-level logic stays responsive, thanks to zero-copy, low-overhead interfaces between the controller and the real-time core.
-    </span>
+  <Card title="Real-time confidence" icon={<TimerIcon />}>
+    Meet hard EtherCAT cycle times while higher-level logic stays responsive, thanks to zero-copy, low-overhead interfaces between the controller and the real-time core.
   </Card>
-  <Card title="Composable Rust surface" icon={<Boxes className="text-amber-400" />}>
-    <span className="block leading-6 text-fd-muted-foreground">
+  <Card title="Composable Rust surface" icon={<BoxesIcon />}>
       Ship modular crates with stable APIs and compile-time enforced versioning so integrators can mix capabilities and evolve systems without breakage.
-    </span>
   </Card>
-  <Card
-    title="Discoverable and observable"
-    icon={<Radar style={{ color: "var(--doc-color-lib)" }} />}
-  >
-    <span className="block leading-6 text-fd-muted-foreground">
-      Lean on well-defined device descriptors for quick configuration and record the metrics needed to replay motion paths and machine state with precision.
-    </span>
+  <Card title="Discoverable and observable" icon={<RadarIcon />}>
+    Lean on well-defined device descriptors for quick configuration and record the metrics needed to replay motion paths and machine state with precision.
   </Card>
 </Cards>
 
@@ -156,15 +110,15 @@ flowchart TD
 ## Hardware & Protocols [#hardware-protocols]
 
 <Cards>
-  <Card title="Device Model" icon={<Lightbulb />}>
+  <Card title="Device Model" icon={<LightbulbIcon />}>
       - Treat microcontroller nodes like EtherCAT devices.
       - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
   </Card>
-  <Card title="Boards and Drivers" icon={<Cpu />}>
+  <Card title="Boards and Drivers" icon={<CpuIcon />}>
     - Focus on a curated set of BSPs (e.g., BTT Kraken, then Octopus) rather than a large hardware matrix.
     - Prefer driver “direct mode” where possible; use very high effective microstepping on the device while keeping host communication compact.
   </Card>
-  <Card title="Packaging and Updates" icon={<PackageOpen />}>
+  <Card title="Packaging and Updates" icon={<PackageOpenIcon />}>
     - Aether Printer is distributable as a packaged binary.
     - MCU updates depend on the platform (e.g., DFU on some boards; some EtherCAT devices may not be updated in the field).
     - Minimize firmware churn by decoupling host releases from MCU firmware where feasible.
