@@ -70,27 +70,19 @@ Aether is the Rust-native framework for high-performance motion control. It blen
 
 ### Core and Controller
 
-- Core: hard real‑time. Executes motion schedules and device I/O within strict cycle budgets.
-- Controller: soft real‑time. Feeds the core; if it falls behind, the core safely waits for new commands.
-- Linking: prefer in‑process linking (controller + core in Rust) to avoid serialization and enable direct data sharing.
+Aether splits the world into a hard real‑time core and a soft real‑time controller. The core keeps tight cycles, executing motion schedules and device I/O without missing its budget. The controller prepares and feeds work into the core; if it hiccups, the core pauses at the next boundary and waits for fresh commands instead of jittering. We prefer linking controller and core in‑process in Rust to skip serialization and share data directly—lower latency, higher determinism.
 
 ### Planner and Motion Queues
 
-- Planner accepts long sequences (e.g., G‑code), enforces machine limits, and produces motion segments.
-- Motion queues flow from planner to core; the core marks execution and exposes how much is committed for replanning.
-- Control modes (e.g., position follower) sample from movement queues; the planner can update or replace segments.
+The planner digests long programs like G‑code, applies machine limits, and emits motion segments. Those segments stream into motion queues that the core executes; the core marks what’s already committed so the planner knows exactly how much room it has to replan. Control modes—like a position follower—sample from these queues in real time, and the planner can update or replace upcoming segments without disturbing what’s already in flight.
 
 ### Interfaces and Versioning
 
-- Keep controller↔core communication low‑overhead; link for compile‑time API guarantees.
-- Introduce explicit serialization only when a stable external interface is required.
-- Thin controller patterns allow wrappers (e.g., PyO3 or FFI) without compromising real‑time boundaries.
+Interfaces are thin intentionally and we keep controller↔core calls in‑process to get compile‑time guarantees and near‑zero overhead. When we truly need a boundary, we add explicit serialization behind a stable external interface and stop there. The controller surface stays slim enough to wrap from Python (PyO3) or C (FFI) without poking holes in the real‑time envelope.
 
 ### Scope and Discoverability
 
-- Keep the real‑time path strictly EtherCAT to limit scope and ensure determinism.
-- Integrate non‑real‑time pieces on the controller side.
-- Use existing EtherCAT XML descriptors and add higher‑level descriptors when needed; the UI should identify connected hardware and map it to functions.
+We keep the hard real‑time path intentionally narrow: EtherCAT in, EtherCAT out. Everything that isn’t time‑critical—configuration, supervision, UI—lives on the controller side where it can breathe. Devices describe themselves with EtherCAT XML; when that’s not enough, we layer higher‑level descriptors so the UI can recognize what’s attached, surface capabilities, and map hardware functions.
 
 ### High‑Level Diagram [#high-level-diagram]
 
