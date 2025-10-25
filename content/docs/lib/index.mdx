@@ -1,8 +1,167 @@
 ---
-title: Aether
+title: Overview of Aether
 description: The Aether framework for building motion control applications in Rust.
-icon: House
+icon: Lightbulb
 ---
 
-## What is Aether?
-Aether is a framework for building motion control applications in Rust. It provides a set of components and tools for building motion control applications.
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+import { Showcases, Showcase } from "@/components/mdx/Showcase";
+
+import {
+  CpuIcon,
+  GaugeIcon,
+  LayersIcon,
+  LightbulbIcon,
+  NetworkIcon,  
+  PackageOpenIcon,
+  RadarIcon,
+  RocketIcon,
+  TimerIcon,
+  BoxesIcon,
+} from "lucide-react";
+
+<Callout type="warning">
+  ### This documentation is in its very early stages. [!toc] [#alpha-warning]
+  We are still working on the alpha release of Aether.<br />
+  Expect things to change and break frequently as we continue to develop the project.
+</Callout>
+
+
+## Overview [#overview]
+
+Aether is the Rust-native framework for high-performance motion control. It blends composable crates with a host runtime that synchronizes real-time workloads across heterogeneous devices. The same building blocks power domain solutions like Aether Printer while remaining reusable in other robotics and motion control contexts.
+
+<Showcases>
+  <Showcase title="Composable building blocks" icon={<LayersIcon />}>
+    Compose libraries into turnkey applications or adopt the parts you need inside existing controllers — no heavy framework baggage required.
+  </Showcase>
+
+  <Showcase title="Unified fieldbus orchestration" icon={<NetworkIcon />}>
+    Blend EtherCAT devices, Mesa cards, and custom AetherMCU boards into one cohorent system without compromising on determinism.
+  </Showcase>
+
+  <Showcase title="Determinism by design" icon={<GaugeIcon />}>
+    Keep tight real-time loops on budget with zero-added overhead so planners, controllers, and the hard real-time core stay perfectly in lockstep.
+  </Showcase>
+</Showcases>
+
+
+## Goals [#goals]
+
+<Cards>
+  <Card title="Mission-first motion" icon={<RocketIcon />}>
+    Make Aether the obvious choice for robot motion control and the modern, Rust-native successor to LinuxCNC—with EtherCAT support baked in from day one.
+  </Card>
+
+  <Card title="Real-time confidence" icon={<TimerIcon />}>
+    Meet hard EtherCAT cycle times while higher-level logic stays responsive, thanks to zero-copy, low-overhead interfaces between the controller and the real-time core.
+  </Card>
+
+  <Card title="Composable Rust surface" icon={<BoxesIcon />}>
+      Ship modular crates with stable APIs and compile-time enforced versioning so integrators can mix capabilities and evolve systems without breakage.
+  </Card>
+
+  <Card title="Discoverable and observable" icon={<RadarIcon />}>
+    Lean on well-defined device descriptors for quick configuration and record the metrics needed to replay motion paths and machine state with precision.
+  </Card>
+</Cards>
+
+
+## Architecture [#architecture]
+
+### Core and Controller
+
+Aether splits the world into a hard real‑time core and a soft real‑time controller. The core keeps tight cycles, executing motion schedules and device I/O without missing its budget. The controller prepares and feeds work into the core; if it hiccups, the core pauses at the next boundary and waits for fresh commands instead of jittering. We prefer linking controller and core in‑process in Rust to skip serialization and share data directly—lower latency, higher determinism.
+
+### Planner and Motion Queues
+
+The planner digests long programs like G‑code, applies machine limits, and emits motion segments. Those segments stream into motion queues that the core executes; the core marks what’s already committed so the planner knows exactly how much room it has to replan. Control modes—like a position follower—sample from these queues in real time, and the planner can update or replace upcoming segments without disturbing what’s already in flight.
+
+### Interfaces and Versioning
+
+Interfaces are thin intentionally and we keep controller↔core calls in‑process to get compile‑time guarantees and near‑zero overhead. When we truly need a boundary, we add explicit serialization behind a stable external interface and stop there. The controller surface stays slim enough to wrap from Python (PyO3) or C (FFI) without poking holes in the real‑time envelope.
+
+### Scope and Discoverability
+
+We keep the hard real‑time path intentionally narrow: EtherCAT in, EtherCAT out. Everything that isn’t time‑critical—configuration, supervision, UI—lives on the controller side where it can breathe. Devices describe themselves with EtherCAT XML; when that’s not enough, we layer higher‑level descriptors so the UI can recognize what’s attached, surface capabilities, and map hardware functions.
+
+### High‑Level Diagram [#high-level-diagram]
+
+```mermaid
+flowchart TD
+  subgraph ui [via web browser]
+    UI[Aether UI]
+  end
+
+  subgraph core [Linux host application]
+    CTRL[Controller]
+    PLAN[Planner + Motion Queue]
+    SCHED[Scheduler]
+
+    UI --> CTRL
+    CTRL --> PLAN
+    PLAN --> CTRL
+    CTRL --> SCHED
+  end
+
+  SCHED --> EC[EtherCAT Network]
+  SCHED --> USB[USB]
+  EC --> ETHERCAT_DEV[EtherCAT Devices]
+  EC --> MESA[Mesa]
+  EC --> AETHERMCU_ETH[AetherMCU]
+  USB --> AETHERMCU_USB[Aether Printer]
+```
+
+
+## Hardware & Protocols [#hardware-protocols]
+
+<Cards>
+  <Card title="Device Model" icon={<LightbulbIcon />}>
+      - Treat microcontroller nodes like EtherCAT devices.
+      - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
+  </Card>
+
+  <Card title="Boards and Drivers" icon={<CpuIcon />}>
+    - Focus on a curated set of BSPs (e.g., BTT Kraken, then Octopus) rather than a large hardware matrix.
+    - Prefer driver “direct mode” where possible; use very high effective microstepping on the device while keeping host communication compact.
+  </Card>
+ 
+  <Card title="Packaging and Updates" icon={<PackageOpenIcon />}>
+    - Aether Printer is distributable as a packaged binary.
+    - MCU updates depend on the platform (e.g., DFU on some boards; some EtherCAT devices may not be updated in the field).
+    - Minimize firmware churn by decoupling host releases from MCU firmware where feasible.
+  </Card>
+</Cards>
+
+
+## What you can build [#what-you-can-build]
+
+Aether is a launchpad for motion‑centric projects — from hobby robots to production‑grade machines. Here are a few ways to put it to work:
+
+- 3D printers with precision and insight
+  - Build on Aether Printer to drive multi‑axis printers at high control rates.
+  - Run drivers in direct modes with very high effective microstepping while keeping host communication compact.
+  - Capture deterministic logs so you can reproduce exact print states, compare paths, and debug confidently.
+
+- Robotics, CNC, and pick‑and‑place
+  - Compose planners and control modes for arms, gantries, and routers.
+  - Re‑plan motion on the fly when sensors, cameras, or external systems provide late‑arriving inputs.
+  - Keep hard real‑time in the core while pushing iterative logic to a responsive controller.
+
+
+## Where it fits [#where-it-fits]
+
+- Aether provides the motion control substrate for robotics and machines that benefit from deterministic timing, EtherCAT networking, and modular composition.
+- For 3D printing, Aether Printer integrates these pieces into an end‑to‑end firmware stack.
+- Bridging to other ecosystems is possible via modules on the real‑time side without bending the core architecture.
+
+
+## What Aether is Not [#what-aether-is-not]
+
+- Tied to vendor lock‑in or C++‑centric stacks.
+- Locked into recompiling MCU firmwares in lockstep with host releases; the system should discover and configure compatible devices.
+- Aiming for plug‑and‑play on arbitrary boards in early phases; curated BSPs keep complexity in check.
+- Chasing the extreme MCU flexibility approach; prioritize predictable, high‑performance hardware compositions.
+- On a fixed public timeline; quality and correctness come first.
