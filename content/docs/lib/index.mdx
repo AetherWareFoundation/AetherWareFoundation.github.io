@@ -1,7 +1,7 @@
 ---
-title: Aether
+title: Overview of Aether
 description: The Aether framework for building motion control applications in Rust.
-icon: House
+icon: Lightbulb
 ---
 
 import { Callout } from "fumadocs-ui/components/callout";
@@ -35,11 +35,11 @@ Aether is the Rust-native framework for high-performance motion control. It blen
 
 <Showcases>
   <Showcase title="Composable building blocks" icon={<LayersIcon />}>
-    Compose libraries into turnkey applications or adopt them piecemeal inside existing controllers—no heavy framework baggage required.
+    Compose libraries into turnkey applications or adopt the parts you need inside existing controllers — no heavy framework baggage required.
   </Showcase>
 
   <Showcase title="Unified fieldbus orchestration" icon={<NetworkIcon />}>
-    Blend EtherCAT devices, Mesa cards, and custom AetherMCU boards into one coordinated installation without compromising determinism.
+    Blend EtherCAT devices, Mesa cards, and custom AetherMCU boards into one cohorent system without compromising on determinism.
   </Showcase>
 
   <Showcase title="Determinism by design" icon={<GaugeIcon />}>
@@ -54,12 +54,15 @@ Aether is the Rust-native framework for high-performance motion control. It blen
   <Card title="Mission-first motion" icon={<RocketIcon />}>
     Make Aether the obvious choice for robot motion control and the modern, Rust-native successor to LinuxCNC—with EtherCAT support baked in from day one.
   </Card>
+
   <Card title="Real-time confidence" icon={<TimerIcon />}>
     Meet hard EtherCAT cycle times while higher-level logic stays responsive, thanks to zero-copy, low-overhead interfaces between the controller and the real-time core.
   </Card>
+
   <Card title="Composable Rust surface" icon={<BoxesIcon />}>
       Ship modular crates with stable APIs and compile-time enforced versioning so integrators can mix capabilities and evolve systems without breakage.
   </Card>
+
   <Card title="Discoverable and observable" icon={<RadarIcon />}>
     Lean on well-defined device descriptors for quick configuration and record the metrics needed to replay motion paths and machine state with precision.
   </Card>
@@ -88,14 +91,27 @@ We keep the hard real‑time path intentionally narrow: EtherCAT in, EtherCAT ou
 
 ```mermaid
 flowchart TD
-  UI[Aether UI] --> CTRL[Controller - soft RT]
-  CTRL --> PLAN[Planner + Motion Queue]
-  PLAN --> CTRL
-  CTRL --> CORE[Core - hard RT]
-  CORE --> EC[EtherCAT Network]
+  subgraph ui [via web browser]
+    UI[Aether UI]
+  end
+
+  subgraph core [Linux host application]
+    CTRL[Controller]
+    PLAN[Planner + Motion Queue]
+    SCHED[Scheduler]
+
+    UI --> CTRL
+    CTRL --> PLAN
+    PLAN --> CTRL
+    CTRL --> SCHED
+  end
+
+  SCHED --> EC[EtherCAT Network]
+  SCHED --> USB[USB]
   EC --> ETHERCAT_DEV[EtherCAT Devices]
   EC --> MESA[Mesa]
-  EC --> AETHERMCU[AetherMCU]
+  EC --> AETHERMCU_ETH[AetherMCU]
+  USB --> AETHERMCU_USB[Aether Printer]
 ```
 
 
@@ -106,10 +122,12 @@ flowchart TD
       - Treat microcontroller nodes like EtherCAT devices.
       - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
   </Card>
+
   <Card title="Boards and Drivers" icon={<CpuIcon />}>
     - Focus on a curated set of BSPs (e.g., BTT Kraken, then Octopus) rather than a large hardware matrix.
     - Prefer driver “direct mode” where possible; use very high effective microstepping on the device while keeping host communication compact.
   </Card>
+ 
   <Card title="Packaging and Updates" icon={<PackageOpenIcon />}>
     - Aether Printer is distributable as a packaged binary.
     - MCU updates depend on the platform (e.g., DFU on some boards; some EtherCAT devices may not be updated in the field).
