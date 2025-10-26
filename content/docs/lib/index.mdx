@@ -60,7 +60,7 @@ Aether is the Rust-native framework for high-performance motion control. It blen
   </Card>
 
   <Card title="Composable Rust surface" icon={<BoxesIcon />}>
-      Ship modular crates with stable APIs and compile-time enforced versioning so integrators can mix capabilities and evolve systems without breakage.
+    Ship modular crates with stable APIs and compile-time enforced versioning so integrators can mix capabilities and evolve systems without breakage.
   </Card>
 
   <Card title="Discoverable and observable" icon={<RadarIcon />}>
@@ -91,27 +91,55 @@ We keep the hard real‑time path intentionally narrow: EtherCAT in, EtherCAT ou
 
 ```mermaid
 flowchart TD
-  subgraph ui [via web browser]
+  subgraph browser [Web Browser]
     UI[Aether UI]
   end
 
-  subgraph core [Linux host application]
-    CTRL[Controller]
-    PLAN[Planner + Motion Queue]
-    SCHED[Scheduler]
+  subgraph host [Aether Host Application - Linux]
+    API[JSON-RPC API]
+    
+    subgraph interactive [Interactive Threads]
+      TGM[**Transform Graph Manager**]
+      COMM_MGR1[**Connection Manager**<br/>EtherCAT]
+      COMM_MGR2[**Connection Manager**<br/>Printer]
+      COMM_MGRN[**Connection Manager**<br/>Other]
+    end
 
-    UI --> CTRL
-    CTRL --> PLAN
-    PLAN --> CTRL
-    CTRL --> SCHED
+    subgraph realtime [Hard Realtime Threads]
+      TGE[Transform Graph Executor]
+      COMM_RT1[**RT Connection**<br/>EtherCAT]
+      COMM_RT2[**RT Connection**<br/>Printer]
+      COMM_RTN[**RT Connection**<br/>Other]
+    end
   end
 
-  SCHED --> EC[EtherCAT Network]
-  SCHED --> USB[USB]
-  EC --> ETHERCAT_DEV[EtherCAT Devices]
-  EC --> MESA[Mesa]
-  EC --> AETHERMCU_ETH[AetherMCU]
-  USB --> AETHERMCU_USB[Aether Printer]
+  MCU1[EtherCAT components]
+  MCU2[Aether Printer MCU]
+  MCUN[Other proprietary system]
+
+  UI <-.->|JSON-RPC| API
+  API -.->|configure| TGM
+  TGM <-->|execution plans| TGE
+  TGE -->|fill transactions| COMM_RT1
+  TGE -->|fill transactions| COMM_RT2
+  TGE -->|fill transactions| COMM_RTN
+  COMM_MGR1 -.->|manages| COMM_RT1
+  COMM_MGR2 -.->|manages| COMM_RT2
+  COMM_MGRN -.->|manages| COMM_RTN
+  COMM_RT1 ===>|EtherCAT| MCU1
+  COMM_RT2 ===>|USB| MCU2
+  COMM_RTN ===>|Ethernet| MCUN
+
+  classDef interactive fill:#e1f5ff,stroke:#0288d1
+  classDef realtime fill:#fff3e0,stroke:#f57c00
+  classDef executor fill:#fce4ec,stroke:#c2185b
+  classDef hardware fill:#f3e5f5,stroke:#7b1fa2
+  classDef api fill:#e8f5e9,stroke:#388e3c
+  class TGM,COMM_MGR1,COMM_MGR2,COMM_MGRN interactive
+  class TGE executor
+  class COMM_RT1,COMM_RT2,COMM_RTN realtime
+  class MCU1,MCU2,MCUN hardware
+  class API api
 ```
 
 
@@ -119,8 +147,8 @@ flowchart TD
 
 <Cards>
   <Card title="Device Model" icon={<LightbulbIcon />}>
-      - Treat microcontroller nodes like EtherCAT devices.
-      - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
+    - Treat microcontroller nodes like EtherCAT devices.
+    - Use a register‑based protocol for MCUs to align with established fieldbus patterns and support protocol evolution.
   </Card>
 
   <Card title="Boards and Drivers" icon={<CpuIcon />}>
