@@ -138,30 +138,24 @@ flowchart TD
 
 ## What you can build [#what-you-can-build]
 
-Aether is a launchpad for motion‑centric projects — from hobby robots to production‑grade machines. Here are a few ways to put it to work:
+Aether is a launchpad for motion‑centric projects—from hobby robots to production‑grade machines. Pick a lane and build.
 
-- 3D printers with precision and insight
-  - Build on Aether Printer to drive multi‑axis printers at high control rates.
-  - Run drivers in direct modes with very high effective microstepping while keeping host communication compact.
-  - Capture deterministic logs so you can reproduce exact print states, compare paths, and debug confidently.
+<Cards>
+  <Card title="3D printers with precision and insight" icon={<LayersIcon />}>
+    Run multi‑axis printers at high control rates with Aether Printer. Direct‑mode drivers deliver ultra‑fine steps, and deterministic logs preserve exact print states for confident debugging.
+  </Card>
 
-- Robotics, CNC, and pick‑and‑place
-  - Compose planners and control modes for arms, gantries, and routers.
-  - Re‑plan motion on the fly when sensors, cameras, or external systems provide late‑arriving inputs.
-  - Keep hard real‑time in the core while pushing iterative logic to a responsive controller.
+  <Card title="Robotics, CNC, and pick‑and‑place" icon={<CpuIcon />}>
+    Compose planners and control modes for arms, gantries, routers, and pick‑and‑place. Replan from sensors or vision in real time—the core keeps hard timing while the controller handles iterative logic.
+  </Card>
+</Cards>
 
 
 ## Where it fits [#where-it-fits]
 
-- Aether provides the motion control substrate for robotics and machines that benefit from deterministic timing, EtherCAT networking, and modular composition.
-- For 3D printing, Aether Printer integrates these pieces into an end‑to‑end firmware stack.
-- Bridging to other ecosystems is possible via modules on the real‑time side without bending the core architecture.
+Aether slots in as the motion‑control substrate for robots and machines that need deterministic timing, EtherCAT networking, and modular building blocks. In 3D printing, Aether Printer bundles those pieces into an end‑to‑end firmware. When you need to meet other ecosystems halfway, bridge at the real‑time edge—without twisting the core architecture.
 
 
 ## What Aether is Not [#what-aether-is-not]
 
-- Tied to vendor lock‑in or C++‑centric stacks.
-- Locked into recompiling MCU firmwares in lockstep with host releases; the system should discover and configure compatible devices.
-- Aiming for plug‑and‑play on arbitrary boards in early phases; curated BSPs keep complexity in check.
-- Chasing the extreme MCU flexibility approach; prioritize predictable, high‑performance hardware compositions.
-- On a fixed public timeline; quality and correctness come first.
+Here’s the short version: Aether favors openness and a Rust‑first surface. Devices are discoverable and configurable without tying MCU firmware updates to host releases. The early limited scope is intentional—a curated BSP set, not a promise to run on every board. We optimize for predictable, high‑performance hardware compositions rather than maximal MCU flexibility. Releases follow readiness and correctness, not the calendar.
