@@ -94,52 +94,59 @@ flowchart TD
   subgraph browser [Web Browser]
     UI[Aether UI]
   end
-
-  subgraph host [Aether Host Application - Linux]
-    API[JSON-RPC API]
+  
+  subgraph host [Aether Host Application]
+    API[API Server]
+    TGM[Transform Graph Manager]
     
-    subgraph interactive [Interactive Threads]
-      TGM[**Transform Graph Manager**]
-      COMM_MGR1[**Connection Manager**<br/>EtherCAT]
-      COMM_MGR2[**Connection Manager**<br/>Printer]
-      COMM_MGRN[**Connection Manager**<br/>Other]
-    end
-
-    subgraph realtime [Hard Realtime Threads]
+    subgraph realtime [Realtime Threads]
+      subgraph controllers [Controllers]
+        CTRL1[**Controller**<br/>Heater] 
+          --- CTRL2[**Controller**<br/>Motor] 
+          --- CTRL3[**Controller**<br/>Fan] 
+          --- CTRL4[**Controller**<br/>Other]
+      end
+      
       TGE[Transform Graph Executor]
-      COMM_RT1[**RT Connection**<br/>EtherCAT]
-      COMM_RT2[**RT Connection**<br/>Printer]
-      COMM_RTN[**RT Connection**<br/>Other]
+      
+      CONN1[**Connection Manager**<br/>EtherCAT]
+      CONN2[**Connection Manager**<br/>USB]
+      CONN3[**Connection Manager**<br/>Other]
     end
   end
+  
+  subgraph devices [Hardware Devices]
+    HW1[EtherCAT components]
+    HW2[AetherMCU]
+    HW3[Proprietary systems]
+  end
 
-  MCU1[EtherCAT components]
-  MCU2[Aether Printer MCU]
-  MCUN[Other proprietary system]
+  UI -->|JSON-RPC| API
+  API --> TGM
+  TGM -.->|execution plans| TGE
+  controllers -.-> TGE
+  
+  TGE <-->|transactions| CONN1
+  TGE <-->|transactions| CONN2
+  TGE <-->|transactions| CONN3
+  
+  CONN1 ==>|execution commands| HW1
+  CONN2 ==>|execution commands| HW2
+  CONN3 ==>|execution commands| HW3
 
-  UI <-.->|JSON-RPC| API
-  API -.->|configure| TGM
-  TGM <-->|execution plans| TGE
-  TGE -->|fill transactions| COMM_RT1
-  TGE -->|fill transactions| COMM_RT2
-  TGE -->|fill transactions| COMM_RTN
-  COMM_MGR1 -.->|manages| COMM_RT1
-  COMM_MGR2 -.->|manages| COMM_RT2
-  COMM_MGRN -.->|manages| COMM_RTN
-  COMM_RT1 ===>|EtherCAT| MCU1
-  COMM_RT2 ===>|USB| MCU2
-  COMM_RTN ===>|Ethernet| MCUN
-
-  classDef interactive fill:#e1f5ff,stroke:#0288d1
-  classDef realtime fill:#fff3e0,stroke:#f57c00
-  classDef executor fill:#fce4ec,stroke:#c2185b
-  classDef hardware fill:#f3e5f5,stroke:#7b1fa2
-  classDef api fill:#e8f5e9,stroke:#388e3c
-  class TGM,COMM_MGR1,COMM_MGR2,COMM_MGRN interactive
+  classDef interactive stroke:#0288d1,stroke-width:2px
+  classDef cyclic stroke:#f57c00,stroke-width:2px
+  classDef executor stroke:#c2185b,stroke-width:2px
+  classDef controller stroke:#5e35b1,stroke-width:2px
+  classDef hardware stroke:#7b1fa2,stroke-width:2px
+  classDef container stroke:#666,stroke-width:2px
+  
+  class API,TGM interactive
   class TGE executor
-  class COMM_RT1,COMM_RT2,COMM_RTN realtime
-  class MCU1,MCU2,MCUN hardware
-  class API api
+  class CTRL1,CTRL2,CTRL3,CTRL4 controller
+  class CONN1,CONN2,CONN3 cyclic
+  class HW1,HW2,HW3 hardware
+  class browser,host,realtime,devices,controllers container
 ```
 
 
