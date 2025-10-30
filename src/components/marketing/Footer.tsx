@@ -86,8 +86,7 @@ export const Footer: FunctionComponent<FooterProps> = ({ className }) => {
             <LogoText />
 
             <p className="mt-4 max-w-xs text-muted-foreground">
-              Open Source Motion Control with the feeling of a best-in-class
-              product.
+              At least for now, step/dir is a distraction.
             </p>
 
             <ul className="mt-8 flex gap-6">
