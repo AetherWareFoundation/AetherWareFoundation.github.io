@@ -48,7 +48,6 @@ export function getDocsPageFromMdxUrl(
     const s = slugs.pop();
     if (s) slugs.push(s.replace(LLM_MDX_SUFFIX, ""));
   }
-  console.log(slugs);
   return source.getPage(slugs);
 }
 
