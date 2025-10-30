@@ -3,5 +3,5 @@
   "title": "Aether",
   "description": "The Aether framework for building motion control applications in Rust.",
   "icon": "BatteryCharging",
-  "pages": ["index", "--- Connectivity ---", "ethercat"]
+  "pages": ["index", "faq", "--- Connectivity ---", "ethercat"]
 }
