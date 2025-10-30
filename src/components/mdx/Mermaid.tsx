@@ -21,21 +21,33 @@ function cachePromise<T>(
 
 function MermaidContent({ chart }: { chart: string }) {
   const id = useId();
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, systemTheme, theme } = useTheme();
   const { default: mermaid } = use(
     cachePromise("mermaid", () => import("mermaid")),
   );
+
+  const currentTheme = resolvedTheme || systemTheme || theme || "light";
+
+  // clear cache when theme changes to force re-render
+  useEffect(() => {
+    const cacheKey = `${chart}-${currentTheme}`;
+    if (cache.has(cacheKey)) {
+      cache.delete(cacheKey);
+    }
+  }, [chart, currentTheme]);
 
   mermaid.initialize({
     startOnLoad: false,
     securityLevel: "loose",
     fontFamily: "inherit",
-    themeCSS: "margin: 1.5rem auto 0;",
-    theme: resolvedTheme === "dark" ? "dark" : "default",
+    themeCSS: `
+      margin: 1.5rem auto 0;
+    `,
+    theme: currentTheme === "dark" ? "dark" : "default",
   });
 
   const { svg, bindFunctions } = use(
-    cachePromise(`${chart}-${resolvedTheme}`, () => {
+    cachePromise(`${chart}-${currentTheme}`, () => {
       return mermaid.render(id, chart.replaceAll("\\n", "\n"));
     }),
   );
