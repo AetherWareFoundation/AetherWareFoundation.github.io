@@ -1,5 +1,6 @@
 import type { Route } from "next";
-import Link, { type LinkProps } from "next/link";
+// biome-ignore lint/style/noRestrictedImports: type only
+import type { LinkProps } from "next/link";
 import type { FunctionComponent } from "react";
 
 import type { InferPageType } from "fumadocs-core/source";
@@ -7,6 +8,7 @@ import type { InferPageType } from "fumadocs-core/source";
 import type { source } from "@/lib/content";
 
 import { DynamicLucideIcon } from "../DynamicLucideIcon";
+import { SafeLink } from "../SafeLink";
 import {
   HoverCard,
   HoverCardContent,
@@ -28,7 +30,7 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <Link href={href} {...props} />
+        <SafeLink href={href} {...props} />
       </HoverCardTrigger>
       <HoverCardContent className="text-sm w-96">
         <div className="flex justify-between gap-4">

@@ -1,4 +1,5 @@
 import type { Route } from "next";
+// biome-ignore lint/style/noRestrictedImports: this is the SafeLink component
 import Link, { type LinkProps } from "next/link";
 import type { FunctionComponent } from "react";
 

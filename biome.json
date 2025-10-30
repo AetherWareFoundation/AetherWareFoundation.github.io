@@ -19,7 +19,15 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useImportType": "error"
+        "useImportType": "error",
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "next/link": "Use the SafeLink component from '@/components/SafeLink' instead of next/link"
+            }
+          }
+        }
       }
     },
     "domains": {
