@@ -48,14 +48,14 @@ export function Hero<TMain extends string, TAlt extends string>({
         {"from" in background && "to" in background && (
           <>
             <div
-              className="absolute inset-0 opacity-50"
+              className="absolute inset-0 opacity-50 bg-black"
               style={{
                 backgroundImage: `linear-gradient(to bottom right, ${background.from}, transparent, ${background.to})`,
               }}
             ></div>
-            <div className="absolute inset-0 backdrop-blur-[50px] sm:backdrop-blur-[100px]"></div>
-            <div className="absolute top-1/4 -left-20 w-[20rem] sm:w-[30rem] lg:w-[40rem] h-[20rem] sm:h-[30rem] lg:h-[40rem] bg-gradient-to-br from-violet-600/30 to-fuchsia-600/30 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 -right-20 w-[20rem] sm:w-[30rem] lg:w-[40rem] h-[20rem] sm:h-[30rem] lg:h-[40rem] bg-gradient-to-br from-cyan-600/30 to-blue-600/30 rounded-full blur-3xl"></div>
+            <div className="absolute inset-0 backdrop-blur-[50px] sm:backdrop-blur-[100px]" />
+            <div className="absolute top-1/4 -left-20 w-[20rem] sm:w-[30rem] lg:w-[40rem] h-[20rem] sm:h-[30rem] lg:h-[40rem] bg-gradient-to-br from-violet-600/30 to-fuchsia-600/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-1/4 -right-20 w-[20rem] sm:w-[30rem] lg:w-[40rem] h-[20rem] sm:h-[30rem] lg:h-[40rem] bg-gradient-to-br from-cyan-600/30 to-blue-600/30 rounded-full blur-3xl" />
           </>
         )}
 

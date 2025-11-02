@@ -15,12 +15,12 @@ export const FeatureSectionItem: FunctionComponent<FeatureSectionItemProps> = ({
 }) => (
   <div
     className={cn(
-      "p-6 rounded-lg border border-white/10 bg-white/5 backdrop-blur-lg",
+      "p-6 rounded-lg border border-fd-border bg-fd-background backdrop-blur-lg",
       className,
     )}
   >
-    <h3 className="text-xl font-semibold mb-3 text-white">{title}</h3>
-    <p className="text-white/60">{children}</p>
+    <h3 className="text-xl font-semibold mb-3 text-fd-foreground">{title}</h3>
+    <p className="text-fd-muted-foreground">{children}</p>
   </div>
 );
 
