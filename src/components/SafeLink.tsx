@@ -19,6 +19,7 @@ export type SafeLinkProps = {
   forceExternal?: boolean;
   disableIcon?: boolean;
   disablePrivacy?: boolean;
+  disableTooltip?: boolean;
 } & LinkProps<Route>;
 
 export const SafeLink: FunctionComponent<SafeLinkProps> = ({
@@ -31,18 +32,26 @@ export const SafeLink: FunctionComponent<SafeLinkProps> = ({
   forceExternal,
   disableIcon,
   disablePrivacy,
+  disableTooltip,
   // LinkProps rest
   ...props
 }) => {
   const isExternal = forceExternal || isLinkExternal(href.toString() ?? "");
   const computedRel =
-    isExternal && !disablePrivacy ? `${rel} noreferrer noopener` : rel;
+    isExternal && !disablePrivacy
+      ? `${rel} ${rel?.includes("noreferrer") ? "" : "noreferrer "}${rel?.includes("noopener") ? "" : "noopener"}`
+      : rel;
 
   const Wrapper = ({ children }: { children: ReactNode }) =>
-    isExternal ? (
+    isExternal && !disableTooltip ? (
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>{href.toString()}</TooltipContent>
+        <TooltipContent>
+          {href
+            .toString()
+            .replace(/^https?:\/\//, "")
+            .replace(/^www\./, "")}
+        </TooltipContent>
       </Tooltip>
     ) : (
       children

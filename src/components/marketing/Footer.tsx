@@ -8,7 +8,6 @@ import { source } from "@/lib/content";
 
 import { LogoText } from "../Logo";
 import { SafeLink } from "../SafeLink";
-import { isLinkExternal } from "@/lib/util/helpers";
 
 type SocialIconProps = {
   href: Route | (string & {});
@@ -27,6 +26,7 @@ const SocialIcon: FunctionComponent<SocialIconProps> = ({
     <SafeLink
       href={href as Route}
       forceExternal={forceExternal}
+      disableTooltip
       disableIcon
       rel="noreferrer"
       className="text-fd-muted-foreground hover:text-fd-foreground transition"
@@ -65,7 +65,6 @@ const FooterColumnLink: FunctionComponent<FooterColumnLinkProps> = ({
   <li className={cn(className)} style={style}>
     <SafeLink
       href={href as Route}
-      target={isLinkExternal(href ?? "") ? "_blank" : undefined}
       className="text-fd-muted-foreground hover:text-fd-foreground transition"
     >
       {children}
