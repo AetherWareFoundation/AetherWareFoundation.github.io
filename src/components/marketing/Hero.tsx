@@ -81,11 +81,23 @@ export function Hero<TMain extends string, TAlt extends string>({
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
             <div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
-                <span className="inline-block bg-gradient-to-r from-violet-300 via-cyan-300 to-violet-300 bg-[length:200%_auto] bg-clip-text text-transparent">
+              <h1>
+                <span
+                  className={cn(
+                    "font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+                    "inline-block bg-gradient-to-r from-violet-300 via-cyan-300 to-violet-300 bg-[length:200%_auto] bg-clip-text text-transparent",
+                  )}
+                >
                   {titleLine1}
                 </span>
-                <span className="block mt-2 text-white">{titleLine2}</span>
+                <span
+                  className={cn(
+                    "font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl",
+                    "block mt-2 text-white",
+                  )}
+                >
+                  {titleLine2}
+                </span>
               </h1>
             </div>
 
