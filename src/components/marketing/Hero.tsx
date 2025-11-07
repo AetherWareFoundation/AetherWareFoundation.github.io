@@ -3,7 +3,9 @@ import type { ReactNode } from "react";
 
 import { cn } from "fumadocs-ui/utils/cn";
 
-import { SafeLink } from "../SafeLink";
+import { ArrowRightIcon } from "lucide-react";
+
+import { SafeLink } from "@/components/SafeLink";
 
 export type HeroProps<TMain extends string, TAlt extends string> = {
   titleLine1: ReactNode;
@@ -117,20 +119,7 @@ export function Hero<TMain extends string, TAlt extends string>({
                   <span className="text-white font-medium">
                     {mainButtonText}
                   </span>
-                  <svg
-                    className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <title>Arrow Right</title>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
+                  <ArrowRightIcon className="size-5 text-white transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </SafeLink>
 

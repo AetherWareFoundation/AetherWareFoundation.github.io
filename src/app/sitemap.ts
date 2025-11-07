@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getDocsMdxPath, source } from "@/lib/content";
+import { docsSource, getDocsMdxPath } from "@/lib/content";
 import { SITE_BASE_URL } from "@/config";
 
 export const revalidate = false;
@@ -13,7 +13,7 @@ function url(path: string): string {
 }
 
 export default async function sitemap(): Promise<Sitemap> {
-  const docsPages = source.getPages();
+  const docsPages = docsSource.getPages();
   return [
     // marketing
     {

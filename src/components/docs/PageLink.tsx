@@ -3,21 +3,19 @@ import type { Route } from "next";
 import type { LinkProps } from "next/link";
 import type { FunctionComponent } from "react";
 
-import type { InferPageType } from "fumadocs-core/source";
+import type { DocsPage } from "@/lib/content";
+import { DynamicLucideIcon } from "@/components/icons";
+import { SafeLink } from "@/components/SafeLink";
 
-import type { source } from "@/lib/content";
-
-import { DynamicLucideIcon } from "../DynamicLucideIcon";
-import { SafeLink } from "../SafeLink";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../ui/hover-card";
+} from "@/components/ui/hover-card";
 
 export type PageLinkProps = {
-  page: { page: InferPageType<typeof source>; hash?: string };
-} & Omit<LinkProps<Route>, "children" | "href">;
+  page: { page: DocsPage; hash?: string };
+} & Omit<LinkProps<Route>, "href">;
 
 export const PageLink: FunctionComponent<PageLinkProps> = ({
   page,
@@ -30,7 +28,7 @@ export const PageLink: FunctionComponent<PageLinkProps> = ({
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <SafeLink href={href} {...props} />
+        <SafeLink {...props} href={href} />
       </HoverCardTrigger>
       <HoverCardContent className="text-sm w-96">
         <div className="flex justify-between gap-4">

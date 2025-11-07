@@ -1,7 +1,3 @@
-import type { Metadata } from "next";
-
-import { SITE_BASE_URL } from "@/config";
-
 import {
   FeatureSection,
   FeatureSectionItem,
@@ -38,15 +34,4 @@ export default function LandingPage() {
       </FeatureSection>
     </main>
   );
-}
-
-export async function generateMetadata(
-  _props: PageProps<"/">,
-): Promise<Metadata> {
-  return {
-    title: "Aether",
-    description:
-      "Aether is a motion control ecosystem for the robotics of tomorrow.",
-    metadataBase: new URL(SITE_BASE_URL),
-  };
 }

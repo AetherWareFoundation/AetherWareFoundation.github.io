@@ -1,4 +1,4 @@
-import { source } from "@/lib/content";
+import { docsSource } from "@/lib/content";
 import { SITE_NAME } from "@/config";
 
 export const revalidate = false;
@@ -8,7 +8,7 @@ export async function GET() {
   scanned.push(`# ${SITE_NAME} Documentation`);
   const map = new Map<string, string[]>();
 
-  for (const page of source.getPages()) {
+  for (const page of docsSource.getPages()) {
     const dir = page.slugs[0];
     const list = map.get(dir) ?? [];
     list.push(`- [${page.data.title}](${page.url}): ${page.data.description}`);

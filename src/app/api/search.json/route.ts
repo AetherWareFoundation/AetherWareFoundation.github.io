@@ -1,10 +1,10 @@
 import { createFromSource } from "fumadocs-core/search/server";
 
-import { source } from "@/lib/content";
+import { docsSource } from "@/lib/content";
 
 export const revalidate = false;
 
-export const { staticGET: GET } = createFromSource(source, {
+export const { staticGET: GET } = createFromSource(docsSource, {
   buildIndex: (page) => {
     return {
       title: page.data.title,

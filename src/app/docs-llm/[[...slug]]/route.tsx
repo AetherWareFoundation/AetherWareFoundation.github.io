@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import { type NextRequest, NextResponse } from "next/server";
 
 import {
+  docsSource,
   getDocsLLMText,
   getDocsMdxSlug,
   getDocsPageFromMdxUrl,
-  source,
 } from "@/lib/content";
 
 export const revalidate = false;
@@ -26,11 +26,11 @@ export async function GET(
 }
 
 export function generateStaticParams() {
-  const mapped = source
+  const mapped = docsSource
     .generateParams()
     .map((p) => {
       type Params = typeof p;
-      const page = source.getPage(p.slug);
+      const page = docsSource.getPage(p.slug);
       if (!page) return null;
 
       return { ...p, slug: getDocsMdxSlug(page) } satisfies Params;

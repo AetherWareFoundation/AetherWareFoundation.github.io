@@ -14,22 +14,23 @@ import {
 
 import { DotIcon } from "lucide-react";
 
-import { getDocsMdxPath, getDocsPageImage, source } from "@/lib/content";
+import { docsSource, getDocsMdxPath } from "@/lib/content";
+import { Person } from "@/components/Person";
 import { SafeLink } from "@/components/SafeLink";
 import {
   DOCS_GITHUB_BRANCH,
   DOCS_GITHUB_OWNER,
   DOCS_GITHUB_REPO,
-  SITE_BASE_URL,
 } from "@/config";
 import { getMDXComponents } from "@/mdx-components";
 
 import { AiActions, CopyMarkdownButton } from "@/components/docs/PageActions";
 import { PageLink } from "@/components/docs/PageLink";
+import { metadataGenerator } from "@/lib/util/metadata";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const params = await props.params;
-  const page = source.getPage(params.slug);
+  const page = docsSource.getPage(params.slug);
   if (!page) notFound();
 
   const MDX = page.data.body;
@@ -48,14 +49,14 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
       <DocsDescription className="mb-0">
         {page.data.description}
 
-        {(page.data.authors?.length ?? 0) > 0 && (
+        {page.data.authors.length > 0 && (
           <span className="text-xs text-fd-muted-foreground pt-2 flex items-center gap-2">
             <span className="font-semibold">Written by</span>
             <span className="flex items-center gap-[0.1rem]">
-              {page.data.authors?.map((author, i) => (
+              {page.data.authors.map((author, i) => (
                 <Fragment key={author}>
                   {i > 0 && <DotIcon className="size-3 -mx-0.5" />}
-                  {author}
+                  <Person personId={author} />
                 </Fragment>
               ))}
             </span>
@@ -80,12 +81,12 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         <MDX
           components={getMDXComponents({
             a: ({ href, ...props }: ComponentPropsWithoutRef<"a">) => {
-              const found = source.getPageByHref(href ?? "", {
+              const found = docsSource.getPageByHref(href ?? "", {
                 dir: path.dirname(page.path),
               });
 
               // link is not a docs page
-              if (!found) return <SafeLink href={href as Route} {...props} />;
+              if (!found) return <SafeLink {...props} href={href as Route} />;
               return <PageLink page={found} {...props} />;
             },
           })}
@@ -96,27 +97,22 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 }
 
 export async function generateStaticParams() {
-  return source.generateParams();
+  return docsSource.generateParams();
 }
 
 export async function generateMetadata(
   props: PageProps<"/docs/[[...slug]]">,
 ): Promise<Metadata> {
-  const params = await props.params;
-  const page = source.getPage(params.slug);
+  const { slug } = await props.params;
+
+  const page = docsSource.getPage(slug);
   if (!page) notFound();
 
-  const image = getDocsPageImage(page);
-
-  return {
+  const generate = metadataGenerator({
     title: page.data.title,
     description: page.data.description,
-    openGraph: {
-      images: image.url,
-    },
-    twitter: {
-      images: image.url,
-    },
-    metadataBase: new URL(SITE_BASE_URL),
-  };
+    docsPage: page,
+  });
+
+  return generate();
 }

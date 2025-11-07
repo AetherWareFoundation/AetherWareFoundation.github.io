@@ -1,12 +1,22 @@
 import type { ReactNode } from "react";
 
+import { cn } from "fumadocs-ui/utils/cn";
+
 export type ShowcasesProps = {
+  cols?: 1 | 2;
   children: ReactNode;
 };
 
-export const Showcases = ({ children }: ShowcasesProps) => {
+export const Showcases = ({ cols, children }: ShowcasesProps) => {
   return (
-    <div className="flex flex-col gap-6 lg:gap-10 my-6 lg:my-8">{children}</div>
+    <div
+      className={cn(
+        "grid grid-cols-1 gap-6 lg:gap-10 my-6 lg:my-8",
+        cols === 2 && "lg:grid-cols-2",
+      )}
+    >
+      {children}
+    </div>
   );
 };
 

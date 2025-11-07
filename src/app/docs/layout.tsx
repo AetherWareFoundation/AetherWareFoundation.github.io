@@ -2,20 +2,23 @@ import type { CSSProperties } from "react";
 
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 
-import { source } from "@/lib/content";
+import { docsSource } from "@/lib/content";
 import { LogoText } from "@/components/Logo";
+import { SITE_NAME } from "@/config";
 import { linkItems } from "@/config.layout";
+
+import { metadataGenerator } from "@/lib/util/metadata";
 
 export default function Layout({ children }: LayoutProps<"/docs">) {
   return (
     <DocsLayout
-      tree={source.pageTree}
+      tree={docsSource.pageTree}
       links={linkItems.filter((item) => item.type === "icon")}
       nav={{ title: <LogoText /> }}
       sidebar={{
         tabs: {
           transform: (option, node) => {
-            const meta = source.getNodeMeta(node);
+            const meta = docsSource.getNodeMeta(node);
             if (!meta || !node.icon) return option;
             const docSection = meta.path.split("/")[0];
 
@@ -40,3 +43,10 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
     </DocsLayout>
   );
 }
+
+export const generateMetadata = metadataGenerator({
+  title: {
+    template: `%s | ${SITE_NAME} Documentation`,
+    default: `${SITE_NAME} Documentation`,
+  },
+});

@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 
 import { generate as DefaultImage } from "fumadocs-ui/og";
 
-import { getDocsPageImage, source } from "@/lib/content";
+import { docsSource, getDocsPageImage } from "@/lib/content";
 import { SITE_NAME } from "@/config";
 
 export const revalidate = false;
@@ -13,7 +13,7 @@ export async function GET(
   { params }: RouteContext<"/og/docs/[...slug]">,
 ) {
   const { slug } = await params;
-  const page = source.getPage(slug.slice(0, -1));
+  const page = docsSource.getPage(slug.slice(0, -1));
   if (!page) notFound();
 
   return new ImageResponse(
@@ -30,7 +30,7 @@ export async function GET(
 }
 
 export function generateStaticParams() {
-  return source.getPages().map((page) => ({
+  return docsSource.getPages().map((page) => ({
     lang: page.locale,
     slug: getDocsPageImage(page).segments,
   }));
