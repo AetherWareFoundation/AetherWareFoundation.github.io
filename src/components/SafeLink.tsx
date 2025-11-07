@@ -1,3 +1,5 @@
+"use client";
+
 import type { Route } from "next";
 // biome-ignore lint/style/noRestrictedImports: this is the SafeLink component
 import Link, { type LinkProps } from "next/link";
@@ -27,8 +29,8 @@ export const SafeLink: FunctionComponent<SafeLinkProps> = ({
   href,
   rel,
   className,
-  iconClassName,
   // own props
+  iconClassName,
   forceExternal,
   disableIcon,
   disablePrivacy,

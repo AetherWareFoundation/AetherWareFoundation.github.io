@@ -87,7 +87,22 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 
               // link is not a docs page
               if (!found) return <SafeLink {...props} href={href as Route} />;
-              return <PageLink page={found} {...props} />;
+              return (
+                <PageLink
+                  page={{
+                    url: found.page.url,
+                    data: {
+                      title: found.page.data.title,
+                      description: found.page.data.description,
+                      icon: found.page.data.icon,
+                    },
+                    hash: found.hash,
+                  }}
+                  {...props}
+                >
+                  {props.children ?? <>{found.page.data.title}</>}
+                </PageLink>
+              );
             },
           })}
         />
