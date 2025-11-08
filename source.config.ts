@@ -31,6 +31,8 @@ export const people = defineCollections({
       z.object({
         website: z.optional(z.string()),
         github: z.optional(z.string()),
+        instagram: z.optional(z.string()),
+        youtube: z.optional(z.string()),
       }),
     ),
   }),

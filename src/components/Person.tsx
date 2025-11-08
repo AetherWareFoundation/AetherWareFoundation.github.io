@@ -7,7 +7,7 @@ import { cn } from "fumadocs-ui/utils/cn";
 import { GlobeIcon, MapPinIcon } from "lucide-react";
 
 import { type PersonPage, peopleSource } from "@/lib/content";
-import { GitHubIcon } from "@/components/icons";
+import { GitHubIcon, InstagramIcon, YouTubeIcon } from "@/components/icons";
 
 import { SafeLink } from "./SafeLink";
 import {
@@ -113,11 +113,29 @@ export const Person: FunctionComponent<PersonProps> = ({
                 )}
                 {a.data.socials?.github && (
                   <SafeLink
-                    href={`https://github.com/${a.data.socials.github}`}
+                    href={a.data.socials.github as Route}
                     forceExternal
                     disableIcon
                   >
                     <GitHubIcon className="size-5" />
+                  </SafeLink>
+                )}
+                {a.data.socials?.instagram && (
+                  <SafeLink
+                    href={a.data.socials.instagram as Route}
+                    forceExternal
+                    disableIcon
+                  >
+                    <InstagramIcon className="size-5" />
+                  </SafeLink>
+                )}
+                {a.data.socials?.youtube && (
+                  <SafeLink
+                    href={a.data.socials.youtube as Route}
+                    forceExternal
+                    disableIcon
+                  >
+                    <YouTubeIcon className="size-5" />
                   </SafeLink>
                 )}
               </div>

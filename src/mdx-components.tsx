@@ -13,10 +13,16 @@ import * as ShowcaseComponents from "./components/mdx/Showcase";
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
+
+    // fumadocs extensions
     img: (props) => <ImageZoom {...(props as unknown as ImageZoomProps)} />,
-    Mermaid,
     ...TabsComponents,
+
+    // custom components
+    Mermaid,
     ...ShowcaseComponents,
+
+    // passthrough and overrides
     ...components,
   };
 }
