@@ -1,22 +1,20 @@
-import type { FunctionComponent } from "react";
+import type { FunctionComponent, SVGProps } from "react";
 
 import { cn } from "fumadocs-ui/utils/cn";
 
 import { SITE_NAME } from "@/config";
 
-export type LogoProps = {
-  className?: string;
-};
+export type LogoProps = SVGProps<SVGSVGElement>;
 
-const Logo: FunctionComponent<LogoProps> = ({ className }) => {
+export const Logo: FunctionComponent<LogoProps> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Logo"
       viewBox="0 0 24 24"
-      className={cn("size-6", className)}
+      {...props}
+      className={cn("size-6", props.className)}
     >
-      <title>Logo</title>
       <circle cx={12} cy={12} r={12} fill="currentColor" />
     </svg>
   );

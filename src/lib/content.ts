@@ -10,7 +10,7 @@ import { docs, people } from "@/.source";
 const LLM_MDX_SUFFIX = ".md";
 
 export const peopleSource = loader(createMDXSource(people), {
-  baseUrl: "/authors",
+  baseUrl: "/people",
   plugins: [lucideIconsPlugin()],
 });
 
@@ -23,14 +23,6 @@ export const docsSource = loader({
 });
 
 export type DocsPage = InferPageType<typeof docsSource>;
-
-export function getDocsPageImage(page: DocsPage) {
-  const segments = [...page.slugs, "image.png"];
-  return {
-    segments,
-    url: `/og/docs/${segments.join("/")}`,
-  };
-}
 
 export function getDocsMdxPath(page: DocsPage): Route<`/docs-llm/${string}`> {
   return `/docs-llm/${page.slugs.join("/")}${LLM_MDX_SUFFIX}`;
