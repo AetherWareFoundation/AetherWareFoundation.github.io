@@ -3,7 +3,7 @@ import type { Route } from "next";
 import type { InferPageType } from "fumadocs-core/source";
 import { loader } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/lucide-icons";
-import { createMDXSource } from "fumadocs-mdx";
+import { createMDXSource } from "fumadocs-mdx/runtime/next";
 
 import { docs, people } from "@/.source";
 
