@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { ImageResponse } from "next/og";
 
+import type { DocsPage } from "@/lib/content";
 import {
   METADATA_KEYWORDS_DEFAULT,
   METADATA_KEYWORDS_DEFAULT_DOCS,
   SITE_BASE_URL,
 } from "@/config";
 
-import type { DocsPage } from "../content";
 import { MetaImage } from "./MetaImage";
 
 export type GenerateOgImageProps = {
