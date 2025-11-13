@@ -1,6 +1,6 @@
 import "./global.css";
 
-import { ThemedBody } from "@/app/ThemedBody";
+import { ThemedBody } from "@/components/root/ThemedBody";
 
 export default function Layout({ children }: LayoutProps<"/">) {
   return (

@@ -15,8 +15,6 @@ import {
 import { DotIcon } from "lucide-react";
 
 import { docsSource, getDocsMdxPath } from "@/lib/content";
-import { Person } from "@/components/Person";
-import { SafeLink } from "@/components/SafeLink";
 import {
   DOCS_GITHUB_BRANCH,
   DOCS_GITHUB_OWNER,
@@ -26,6 +24,8 @@ import { getMDXComponents } from "@/mdx-components";
 
 import { AiActions, CopyMarkdownButton } from "@/components/docs/PageActions";
 import { PageLink } from "@/components/docs/PageLink";
+import { Person } from "@/components/shared/Person";
+import { SafeLink } from "@/components/shared/SafeLink";
 import { metadataGenerator } from "@/lib/util/metadata";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {

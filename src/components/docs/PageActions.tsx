@@ -18,7 +18,7 @@ import {
   ExternalLinkIcon,
 } from "lucide-react";
 
-import { AnthropicClaudeIcon, OpenAiIcon } from "../icons";
+import { AnthropicClaudeIcon, OpenAiIcon } from "../shared/icons";
 
 // cache for the duration of the pageload
 const cache = new Map<string, string>();

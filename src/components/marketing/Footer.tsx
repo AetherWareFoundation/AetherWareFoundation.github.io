@@ -7,9 +7,14 @@ import type { Folder } from "fumadocs-core/page-tree";
 import type { LucideIcon } from "lucide-react";
 
 import { docsSource } from "@/lib/content";
-import { DiscordIcon, GitHubIcon, InstagramIcon } from "@/components/icons";
-import { LogoText } from "@/components/Logo";
-import { SafeLink } from "@/components/SafeLink";
+
+import {
+  DiscordIcon,
+  GitHubIcon,
+  InstagramIcon,
+} from "@/components/shared/icons";
+import { LogoText } from "@/components/shared/Logo";
+import { SafeLink } from "@/components/shared/SafeLink";
 
 type SocialIconProps = {
   href: Route | (string & {});

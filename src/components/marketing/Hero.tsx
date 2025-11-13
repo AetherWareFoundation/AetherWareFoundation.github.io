@@ -5,7 +5,7 @@ import { cn } from "fumadocs-ui/utils/cn";
 
 import { ArrowRightIcon } from "lucide-react";
 
-import { SafeLink } from "@/components/SafeLink";
+import { SafeLink } from "@/components/shared/SafeLink";
 
 export type HeroProps<TMain extends string, TAlt extends string> = {
   titleLine1: ReactNode;

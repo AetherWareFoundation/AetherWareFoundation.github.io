@@ -3,10 +3,10 @@ import type { CSSProperties } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 
 import { docsSource } from "@/lib/content";
-import { LogoText } from "@/components/Logo";
 import { SITE_NAME } from "@/config";
 import { linkItems } from "@/config.layout";
 
+import { LogoText } from "@/components/shared/Logo";
 import { metadataGenerator } from "@/lib/util/metadata";
 
 export default function Layout({ children }: LayoutProps<"/docs">) {

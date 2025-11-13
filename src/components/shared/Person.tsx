@@ -7,9 +7,13 @@ import { cn } from "fumadocs-ui/utils/cn";
 import { GlobeIcon, MapPinIcon } from "lucide-react";
 
 import { type PersonPage, peopleSource } from "@/lib/content";
-import { GitHubIcon, InstagramIcon, YouTubeIcon } from "@/components/icons";
 
 import { SafeLink } from "./SafeLink";
+import {
+  GitHubIcon,
+  InstagramIcon,
+  YouTubeIcon,
+} from "@/components/shared/icons";
 import {
   HoverCard,
   HoverCardContent,
@@ -101,7 +105,7 @@ export const Person: FunctionComponent<PersonProps> = ({
             )}
 
             {Object.values(a.data.socials ?? {}).filter(Boolean).length > 0 && (
-              <div className="mt-2 w-full flex flex-row items-center justify-center gap-3 text-muted-foreground [&>*]:hover:text-foreground transition">
+              <div className="mt-2 w-full flex flex-row items-center justify-center gap-3 text-muted-foreground *:hover:text-foreground transition">
                 {a.data.socials?.website && (
                   <SafeLink
                     href={a.data.socials.website as Route}

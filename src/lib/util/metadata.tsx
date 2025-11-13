@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ImageResponse } from "next/og";
 
-import { MetaImage } from "@/components/MetaImage";
 import {
   METADATA_KEYWORDS_DEFAULT,
   METADATA_KEYWORDS_DEFAULT_DOCS,
@@ -9,6 +8,7 @@ import {
 } from "@/config";
 
 import type { DocsPage } from "../content";
+import { MetaImage } from "./MetaImage";
 
 export type GenerateOgImageProps = {
   title: string;

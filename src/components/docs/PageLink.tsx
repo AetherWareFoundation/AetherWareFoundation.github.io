@@ -5,8 +5,7 @@ import type { Route } from "next";
 import Link, { type LinkProps } from "next/link";
 import type { FunctionComponent } from "react";
 
-import { DynamicLucideIcon } from "@/components/icons";
-
+import { DynamicLucideIcon } from "@/components/shared/icons";
 import {
   HoverCard,
   HoverCardContent,

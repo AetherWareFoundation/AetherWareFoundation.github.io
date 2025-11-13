@@ -1,6 +1,6 @@
 import { SITE_NAME } from "@/config";
 
-import { Logo } from "./Logo";
+import { Logo } from "@/components/shared/Logo";
 
 export type MetaImageProps = {
   title: string;

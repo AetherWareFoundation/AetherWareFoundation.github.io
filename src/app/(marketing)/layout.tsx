@@ -1,10 +1,10 @@
 import { HomeLayout } from "fumadocs-ui/layouts/home";
 
-import { LogoText } from "@/components/Logo";
 import { GITHUB_URL, SITE_NAME } from "@/config";
 import { linkItems } from "@/config.layout";
 
 import { Footer } from "@/components/marketing/Footer";
+import { LogoText } from "@/components/shared/Logo";
 import { metadataGenerator } from "@/lib/util/metadata";
 
 export default function Layout({ children }: LayoutProps<"/">) {

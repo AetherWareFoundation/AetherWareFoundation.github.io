@@ -4,7 +4,7 @@ import type { LinkItemType } from "fumadocs-ui/layouts/shared";
 
 import { FileTextIcon, HandHeartIcon, HandshakeIcon } from "lucide-react";
 
-import { DiscordIcon } from "@/components/icons";
+import { DiscordIcon } from "@/components/shared/icons";
 
 export const linkItems: Array<LinkItemType> = [
   // main navigation
