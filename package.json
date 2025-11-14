@@ -10,9 +10,24 @@
     "format": "biome format --write",
     "clean": "rimraf .node_modules .next out .source"
   },
+  "browserslist": {
+    "production": [
+      "defaults and fully supports es6-module",
+      "> 0.5%",
+      "not dead"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "ssr": [
+      "maintained node versions"
+    ]
+  },
   "dependencies": {
-    "@c15t/nextjs": "1.7.1",
-    "@c15t/scripts": "1.0.0",
+    "@c15t/nextjs": "1.8.1",
+    "@c15t/scripts": "1.0.1",
     "@orama/orama": "3.1.16",
     "@plausible-analytics/tracker": "0.4.4",
     "@radix-ui/react-hover-card": "1.1.15",

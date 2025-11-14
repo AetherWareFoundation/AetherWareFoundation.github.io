@@ -7,15 +7,14 @@ export const DOCS_GITHUB_OWNER = "AetherWareFoundation";
 export const DOCS_GITHUB_REPO = "AetherWareFoundation.github.io";
 export const DOCS_GITHUB_BRANCH = "main";
 
-export const SITE_HOST = process.env.NEXT_PUBLIC_SITE_HOST ?? "localhost:3000";
+export const SITE_HOST = process.env.NEXT_PUBLIC_SITE_HOST || "localhost:3000";
 export const SITE_PROTOCOL = `http${process.env.NODE_ENV === "production" ? "s" : ""}:`;
 export const SITE_BASE_URL = `${SITE_PROTOCOL}//${SITE_HOST}`;
 
 export const IS_LIVE =
   process.env.NODE_ENV === "production" && !SITE_HOST.includes("localhost");
 
-export const PLAUSIBLE_ENDPOINT =
-  process.env.NEXT_PUBLIC_PLAUSIBLE_ENDPOINT ?? false;
+export const PLAUSIBLE_HOST = process.env.NEXT_PUBLIC_PLAUSIBLE_HOST || false;
 
 export const METADATA_KEYWORDS_DEFAULT = [
   "AetherWare",

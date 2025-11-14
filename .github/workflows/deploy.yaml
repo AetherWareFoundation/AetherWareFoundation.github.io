@@ -28,7 +28,7 @@ jobs:
         run: bun run build
         env:
           NEXT_PUBLIC_SITE_HOST: ${{ vars.SITE_HOST }}
-          NEXT_PUBLIC_PLAUSIBLE_ENDPOINT: ${{ secrets.PLAUSIBLE_ENDPOINT }}
+          NEXT_PUBLIC_PLAUSIBLE_HOST: ${{ secrets.PLAUSIBLE_HOST }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
